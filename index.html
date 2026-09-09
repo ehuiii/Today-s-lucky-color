@@ -7,8 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+KR:wght@200;300;400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --void:#080612; --deep:#0f0c1e; --panel:#130f22;
+  --void:#0a0716; --deep:#150f28; --panel:#180f2c;
   --gold:#c9a84c; --gold-dim:rgba(201,168,76,.45); --gold-glow:rgba(201,168,76,.18);
+  --lav:#a992d6; --lav-dim:rgba(169,146,214,.4); --lav-glow:rgba(169,146,214,.16);
+  --rose:#d9a0c4; --rose-glow:rgba(217,160,196,.14);
   --parchment:#ede4cc; --muted:rgba(237,228,204,.55); --faint:rgba(237,228,204,.32);
   --err:#e05a5a;
   --mok:#3f9e6b; --hwa:#c0473a; --to:#c9973e; --geum:#c9c2b0; --su:#4a5fa5;
@@ -16,22 +18,40 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{
-  min-height:100vh; background:var(--void); color:var(--parchment);
+  min-height:100vh; background:radial-gradient(ellipse 120% 80% at 50% -10%,#1c1338 0%,var(--void) 55%),var(--void);
+  color:var(--parchment);
   font-family:'Cormorant Garamond','Noto Serif KR',serif;
   display:flex;flex-direction:column;align-items:center;overflow-x:hidden;
+  position:relative;
 }
 body::before{
-  content:'';position:fixed;inset:0;opacity:.03;
+  content:'';position:fixed;inset:0;opacity:.035;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   pointer-events:none;z-index:9999;
 }
+#aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+#aurora span{position:absolute;border-radius:50%;filter:blur(80px);opacity:.35;mix-blend-mode:screen;}
+#aurora span:nth-child(1){width:52vw;height:52vw;top:-18%;left:-14%;background:radial-gradient(circle,var(--lav) 0%,transparent 70%);animation:driftA 26s ease-in-out infinite;}
+#aurora span:nth-child(2){width:44vw;height:44vw;top:8%;right:-16%;background:radial-gradient(circle,var(--gold) 0%,transparent 70%);opacity:.22;animation:driftB 32s ease-in-out infinite;}
+#aurora span:nth-child(3){width:46vw;height:46vw;bottom:-16%;left:12%;background:radial-gradient(circle,var(--rose) 0%,transparent 70%);opacity:.24;animation:driftC 30s ease-in-out infinite;}
+@keyframes driftA{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(6%,8%) scale(1.12);}}
+@keyframes driftB{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-8%,6%) scale(1.08);}}
+@keyframes driftC{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(4%,-7%) scale(1.1);}}
 #starCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
 .wrap{position:relative;z-index:1;width:100%;max-width:680px;padding:52px 24px 90px;display:flex;flex-direction:column;align-items:center;}
 
 .eyebrow{font-size:10px;letter-spacing:7px;text-transform:uppercase;color:var(--gold);opacity:.65;margin-bottom:14px;animation:fadeDown 1s both;}
-h1{font-family:'Cinzel Decorative','Noto Serif KR',serif;font-size:clamp(22px,5.5vw,34px);color:var(--parchment);text-align:center;line-height:1.35;text-shadow:0 0 40px var(--gold-dim),0 0 80px var(--gold-glow);animation:fadeDown 1.1s both;margin-bottom:8px;}
-.sub{font-size:14px;font-style:italic;color:var(--muted);text-align:center;margin-bottom:30px;animation:fadeDown 1.15s both;}
-.rule{width:200px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);margin:0 auto 34px;animation:fadeDown 1.2s both;}
+h1{
+  font-family:'Cinzel Decorative','Noto Serif KR',serif;font-size:clamp(22px,5.5vw,34px);
+  text-align:center;line-height:1.35;animation:fadeDown 1.1s both;margin-bottom:8px;
+  background:linear-gradient(100deg,var(--parchment) 30%,var(--gold) 45%,var(--lav) 55%,var(--parchment) 70%);
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 30px var(--gold-dim)) drop-shadow(0 0 55px var(--lav-glow));
+  animation:fadeDown 1.1s both, shimmer 7s ease-in-out infinite 1.1s;
+}
+@keyframes shimmer{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+.sub{font-size:14px;font-style:normal;color:var(--muted);text-align:center;margin-bottom:30px;animation:fadeDown 1.15s both;}
+.rule{width:200px;height:1px;background:linear-gradient(to right,transparent,var(--lav) 15%,var(--gold) 50%,var(--rose) 85%,transparent);margin:0 auto 34px;animation:fadeDown 1.2s both;opacity:.8;}
 
 /* form */
 .form-panel{width:100%;display:flex;flex-direction:column;gap:20px;margin-bottom:8px;animation:fadeDown 1.3s both;}
@@ -42,12 +62,13 @@ h1{font-family:'Cinzel Decorative','Noto Serif KR',serif;font-size:clamp(22px,5.
 .field input,.field select{
   background:rgba(255,255,255,.02);border:none;border-bottom:1px solid rgba(201,168,76,.35);
   color:var(--parchment);font-family:'Cormorant Garamond','Noto Serif KR',serif;font-size:17px;
-  padding:7px 6px;outline:none;transition:border-color .3s;width:100%;
+  padding:7px 6px;outline:none;transition:border-color .3s,box-shadow .3s;width:100%;
 }
+.field input:focus,.field select:focus{box-shadow:0 6px 16px -8px var(--lav-glow);}
 .field select{cursor:pointer;}
 .field select option{background:#150f26;color:var(--parchment);}
 .field input:focus,.field select:focus{border-bottom-color:var(--gold);}
-.field input::placeholder{color:rgba(237,228,204,.25);font-style:italic;}
+.field input::placeholder{color:rgba(237,228,204,.25);font-style:normal;}
 .seg{display:flex;gap:0;border:1px solid rgba(201,168,76,.3);border-radius:6px;overflow:hidden;}
 .seg button{flex:1;background:transparent;border:none;color:var(--muted);font-family:inherit;font-size:14px;padding:9px 0;cursor:pointer;transition:all .25s;}
 .seg button.on{background:rgba(201,168,76,.16);color:var(--gold);}
@@ -55,10 +76,9 @@ h1{font-family:'Cinzel Decorative','Noto Serif KR',serif;font-size:clamp(22px,5.
 .time-row.disabled input{opacity:.25;pointer-events:none;}
 .unknown-toggle{display:flex;align-items:center;gap:8px;margin-top:2px;}
 .unknown-toggle input{width:auto;accent-color:var(--gold);}
-.unknown-toggle label{font-size:12px;font-style:italic;color:var(--muted);letter-spacing:.5px;text-transform:none;opacity:1;cursor:pointer;}
-.hint{font-size:11px;font-style:italic;color:var(--faint);line-height:1.7;margin-top:-8px;}
+.unknown-toggle label{font-size:12px;font-style:normal;color:var(--muted);letter-spacing:.5px;text-transform:none;opacity:1;cursor:pointer;}
 
-.vmsg{font-size:12px;font-style:italic;color:var(--err);opacity:0;text-align:center;margin:10px 0 6px;transition:opacity .3s;min-height:18px;}
+.vmsg{font-size:12px;font-style:normal;color:var(--err);opacity:0;text-align:center;margin:10px 0 6px;transition:opacity .3s;min-height:18px;}
 .vmsg.on{opacity:1;}
 
 .btn-row{display:flex;gap:14px;margin:26px 0 6px;flex-wrap:wrap;justify-content:center;}
@@ -66,23 +86,25 @@ h1{font-family:'Cinzel Decorative','Noto Serif KR',serif;font-size:clamp(22px,5.
 .btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0) 40%,rgba(255,255,255,.06) 100%);opacity:0;transition:opacity .3s;}
 .btn:hover::after{opacity:1;}
 .btn:disabled{opacity:.4;cursor:not-allowed;}
-.btn-primary{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.55);color:var(--gold);box-shadow:0 0 30px rgba(201,168,76,.08);}
-.btn-primary:hover:not(:disabled){background:rgba(201,168,76,.18);box-shadow:0 0 40px rgba(201,168,76,.2);transform:translateY(-2px);}
+.btn-primary{background:linear-gradient(120deg,rgba(201,168,76,.12),rgba(169,146,214,.08));border:1px solid rgba(201,168,76,.55);color:var(--gold);box-shadow:0 0 30px rgba(201,168,76,.1),0 0 50px rgba(169,146,214,.06);}
+.btn-primary:hover:not(:disabled){background:linear-gradient(120deg,rgba(201,168,76,.22),rgba(169,146,214,.13));box-shadow:0 0 45px rgba(201,168,76,.22),0 0 70px rgba(169,146,214,.12);transform:translateY(-2px);}
 .btn-ghost{background:transparent;border:1px solid rgba(237,228,204,.15);color:var(--muted);}
 .btn-ghost:hover{border-color:rgba(237,228,204,.35);color:var(--parchment);}
 .hidden{display:none!important;}
 
-.section-label{font-size:10px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);opacity:.5;text-align:center;margin:8px 0 18px;}
+.section-label{display:flex;align-items:center;gap:12px;font-family:'Cinzel Decorative','Noto Serif KR',serif;font-size:19px;font-weight:700;color:var(--parchment);text-align:left;margin:44px 0 16px;letter-spacing:.2px;}
+.section-label:first-child{margin-top:0;}
+.cat-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:var(--void);background:linear-gradient(135deg,var(--gold),var(--lav));box-shadow:0 0 18px rgba(201,168,76,.35);}
 
 .result{width:100%;display:none;flex-direction:column;align-items:center;}
 .result.on{display:flex;animation:fadeUp .6s both;}
 
 /* identity */
 .id-strip{width:100%;text-align:center;margin-bottom:30px;}
-.id-name{font-family:'Cinzel Decorative','Noto Serif KR',serif;font-size:20px;color:var(--parchment);text-shadow:0 0 30px var(--gold-dim);margin-bottom:6px;}
-.id-sub{font-size:13px;font-style:italic;color:var(--muted);}
-.id-corr{font-size:11px;color:var(--faint);font-style:italic;margin-top:8px;line-height:1.7;}
-.id-daymaster{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:8px 20px;border:1px solid rgba(201,168,76,.3);border-radius:30px;background:rgba(201,168,76,.05);}
+.id-name{font-family:'Cinzel Decorative','Noto Serif KR',serif;font-size:20px;color:var(--parchment);text-shadow:0 0 30px var(--gold-dim),0 0 60px var(--lav-glow);margin-bottom:6px;}
+.id-sub{font-size:13px;font-style:normal;color:var(--muted);}
+.id-corr{font-size:11px;color:var(--faint);font-style:normal;margin-top:8px;line-height:1.7;}
+.id-daymaster{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:8px 20px;border:1px solid rgba(201,168,76,.32);border-radius:30px;background:linear-gradient(120deg,rgba(201,168,76,.07),rgba(169,146,214,.05));box-shadow:0 0 24px rgba(169,146,214,.08);}
 .dm-dot{width:10px;height:10px;border-radius:50%;}
 .id-daymaster span{font-size:13px;letter-spacing:1px;color:var(--gold);}
 
@@ -90,11 +112,11 @@ h1{font-family:'Cinzel Decorative','Noto Serif KR',serif;font-size:clamp(22px,5.
 .saju-board{width:100%;margin-bottom:36px;}
 .saju-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
 .saju-grid.n3{grid-template-columns:repeat(3,1fr);}
-.pillar{border:1px solid rgba(201,168,76,.18);border-radius:12px;background:rgba(255,255,255,.02);overflow:hidden;animation:riseIn .5s both;}
+.pillar{border:1px solid rgba(201,168,76,.2);border-radius:16px;background:linear-gradient(160deg,rgba(169,146,214,.05),rgba(255,255,255,.02));backdrop-filter:blur(6px);overflow:hidden;animation:riseIn .5s both;box-shadow:0 8px 30px rgba(90,60,140,.08);}
 .pillar-head{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);opacity:.55;text-align:center;padding:10px 0 8px;border-bottom:1px solid rgba(201,168,76,.1);}
 .gz{display:flex;flex-direction:column;align-items:center;padding:13px 4px;gap:3px;position:relative;}
 .gz.stem{border-bottom:1px solid rgba(201,168,76,.08);}
-.gz-han{font-family:'Noto Serif KR',serif;font-size:25px;font-weight:600;}
+.gz-han{font-family:'Noto Serif KR',serif;font-size:25px;font-weight:600;text-shadow:0 0 18px currentColor;}
 .gz-kor{font-size:11px;color:var(--muted);}
 .gz-elem{position:absolute;top:6px;right:8px;font-size:8px;letter-spacing:1px;opacity:.55;}
 .gz .sipsin{font-size:9px;letter-spacing:1px;color:var(--gold);opacity:.7;margin-top:2px;}
@@ -102,12 +124,14 @@ h1{font-family:'Cinzel Decorative','Noto Serif KR',serif;font-size:clamp(22px,5.
 
 /* fortune cards */
 .fortune-wrap{width:100%;margin-bottom:36px;display:flex;flex-direction:column;gap:14px;}
-.f-card{border:1px solid rgba(201,168,76,.16);border-radius:14px;background:rgba(255,255,255,.02);padding:22px 24px;animation:riseIn .5s both;}
-.f-card.total{border-color:rgba(201,168,76,.4);background:linear-gradient(135deg,rgba(201,168,76,.06),rgba(255,255,255,.01));box-shadow:0 0 40px rgba(201,168,76,.05);}
-.f-head{display:flex;align-items:baseline;gap:10px;margin-bottom:12px;}
-.f-title{font-size:15px;font-weight:600;color:var(--gold);letter-spacing:2px;}
-.f-tag{font-size:10px;color:var(--faint);letter-spacing:1px;font-style:italic;}
-.f-text{font-size:14px;line-height:1.95;color:var(--parchment);font-weight:300;}
+.f-card{border:1px solid rgba(201,168,76,.18);border-radius:18px;background:linear-gradient(160deg,rgba(169,146,214,.045),rgba(255,255,255,.015));backdrop-filter:blur(8px);padding:22px 24px;animation:riseIn .5s both;box-shadow:0 10px 34px rgba(60,40,100,.1);}
+.f-card.total{border-color:rgba(201,168,76,.42);background:linear-gradient(135deg,rgba(201,168,76,.07),rgba(169,146,214,.03));box-shadow:0 0 50px rgba(201,168,76,.08),0 0 90px rgba(169,146,214,.06);}
+.f-card.total .f-icon{width:40px;height:40px;font-size:18px;box-shadow:0 0 28px rgba(201,168,76,.55);}
+.f-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.f-icon{flex-shrink:0;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--void);background:linear-gradient(135deg,var(--gold),var(--lav));box-shadow:0 0 20px rgba(201,168,76,.4);}
+.f-title{font-size:17px;font-weight:700;color:var(--parchment);letter-spacing:1px;text-shadow:0 0 20px var(--gold-dim),0 0 40px var(--lav-glow);}
+.f-tag{display:inline-block;font-size:9.5px;color:var(--gold);letter-spacing:1.2px;font-style:normal;background:linear-gradient(120deg,rgba(201,168,76,.12),rgba(169,146,214,.08));border:1px solid rgba(201,168,76,.28);padding:3px 11px;border-radius:20px;white-space:nowrap;}
+.f-text{font-size:13.5px;line-height:1.95;color:var(--parchment);font-weight:300;}
 .f-text b{color:var(--gold);font-weight:600;}
 
 /* ohaeng */
@@ -115,61 +139,68 @@ h1{font-family:'Cinzel Decorative','Noto Serif KR',serif;font-size:clamp(22px,5.
 .oh-row{display:flex;align-items:center;gap:14px;margin-bottom:12px;}
 .oh-name{width:70px;font-size:12px;letter-spacing:1px;color:var(--parchment);flex-shrink:0;}
 .oh-track{flex:1;height:8px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden;}
-.oh-fill{height:100%;border-radius:4px;transition:width 1s cubic-bezier(.34,1.2,.64,1);}
+.oh-fill{height:100%;border-radius:4px;transition:width 1s cubic-bezier(.34,1.2,.64,1);box-shadow:0 0 10px currentColor;}
 .oh-n{width:20px;text-align:right;font-size:12px;color:var(--muted);}
-.oh-note{font-size:12px;font-style:italic;color:var(--muted);text-align:center;margin-top:10px;line-height:1.7;}
+.oh-note{font-size:12px;font-style:normal;color:var(--muted);text-align:center;margin-top:10px;line-height:1.7;}
 
 /* sipsin */
 .sipsin-wrap{width:100%;margin-bottom:36px;}
 .sipsin-list{display:flex;flex-direction:column;gap:8px;}
-.ss-item{display:flex;align-items:center;gap:14px;padding:10px 16px;border:1px solid rgba(201,168,76,.1);border-radius:8px;background:rgba(255,255,255,.015);font-size:13px;}
+.ss-item{display:flex;align-items:center;gap:14px;padding:10px 16px;border:1px solid rgba(201,168,76,.12);border-radius:12px;background:linear-gradient(160deg,rgba(169,146,214,.03),rgba(255,255,255,.012));font-size:13px;}
 .ss-pos{width:64px;color:var(--gold);opacity:.7;letter-spacing:1px;font-size:11px;flex-shrink:0;}
 .ss-char{width:40px;font-family:'Noto Serif KR',serif;font-size:16px;flex-shrink:0;}
 .ss-name{flex:1;color:var(--parchment);}
-.ss-desc{font-size:11px;color:var(--faint);font-style:italic;}
+.ss-desc{font-size:11px;color:var(--faint);font-style:normal;}
 
 /* sinsal */
 .sinsal-wrap{width:100%;margin-bottom:36px;}
 .sinsal-list{display:flex;flex-direction:column;gap:8px;}
-.sn-item{display:flex;align-items:flex-start;gap:14px;padding:12px 16px;border:1px solid rgba(201,168,76,.1);border-radius:8px;background:rgba(255,255,255,.015);}
-.sn-name{width:88px;font-size:13px;color:var(--gold);letter-spacing:1px;flex-shrink:0;}
-.sn-desc{flex:1;font-size:12.5px;color:var(--muted);font-style:italic;line-height:1.7;}
-.sn-none{font-size:12.5px;color:var(--faint);font-style:italic;text-align:center;padding:6px 0;}
+.sn-item{display:flex;align-items:flex-start;gap:14px;padding:12px 16px;border:1px solid rgba(201,168,76,.12);border-radius:12px;background:linear-gradient(160deg,rgba(169,146,214,.03),rgba(255,255,255,.012));}
+.sn-name{width:88px;font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.5px;flex-shrink:0;}
+.sn-desc{flex:1;font-size:12.5px;color:var(--muted);font-style:normal;line-height:1.7;}
+.sn-none{font-size:12.5px;color:var(--faint);font-style:normal;text-align:center;padding:6px 0;}
 
 /* daeun */
 .daeun-wrap{width:100%;margin-bottom:36px;}
-.daeun-info{font-size:12px;font-style:italic;color:var(--muted);text-align:center;margin-bottom:14px;line-height:1.7;}
+.daeun-info{font-size:12px;font-style:normal;color:var(--muted);text-align:center;margin-bottom:14px;line-height:1.7;}
 .daeun-strip{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;}
-.du{border:1px solid rgba(201,168,76,.12);border-radius:8px;background:rgba(255,255,255,.015);padding:10px 2px;display:flex;flex-direction:column;align-items:center;gap:4px;}
-.du.now{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.06);}
+.du{border:1px solid rgba(201,168,76,.14);border-radius:12px;background:linear-gradient(160deg,rgba(169,146,214,.04),rgba(255,255,255,.012));padding:10px 2px;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.du.now{border-color:rgba(201,168,76,.55);background:linear-gradient(160deg,rgba(201,168,76,.1),rgba(169,146,214,.05));box-shadow:0 0 24px rgba(201,168,76,.12);}
 .du-age{font-size:10px;color:var(--gold);opacity:.7;}
 .du-gz{font-family:'Noto Serif KR',serif;font-size:15px;line-height:1.3;text-align:center;}
 @media(max-width:560px){.daeun-strip{grid-template-columns:repeat(4,1fr);}}
 
 /* today */
 .today-wrap{width:100%;margin-bottom:10px;}
-.today-card{border:1px solid rgba(201,168,76,.18);border-radius:14px;background:linear-gradient(135deg,rgba(201,168,76,.04),rgba(255,255,255,.01));padding:22px 24px;display:flex;align-items:center;gap:18px;}
+.today-card{border:1px solid rgba(201,168,76,.2);border-radius:18px;background:linear-gradient(135deg,rgba(201,168,76,.05),rgba(217,160,196,.04),rgba(169,146,214,.03));backdrop-filter:blur(8px);padding:22px 24px;display:flex;align-items:center;gap:18px;box-shadow:0 10px 34px rgba(60,40,100,.1);}
 .today-ganji{font-family:'Noto Serif KR',serif;font-size:26px;text-align:center;flex-shrink:0;}
 .today-ganji .k{display:block;font-size:12px;color:var(--muted);margin-top:2px;}
 .today-body{flex:1;}
 .today-rel{font-size:13px;color:var(--gold);letter-spacing:.5px;margin-bottom:6px;}
-.today-text{font-size:13px;color:var(--muted);font-style:italic;line-height:1.7;}
+.today-text{font-size:13px;color:var(--muted);font-style:normal;line-height:1.7;}
 .today-swatch{width:26px;height:26px;border-radius:50%;flex-shrink:0;box-shadow:0 0 18px currentColor;}
 
-.disclaimer{font-size:11px;color:var(--faint);font-style:italic;text-align:center;line-height:1.8;margin-top:14px;padding:0 10px;}
+.disclaimer{font-size:11px;color:var(--faint);font-style:normal;text-align:center;line-height:1.8;margin-top:14px;padding:0 10px;}
 
 .conf{display:inline-block;font-size:9px;letter-spacing:1px;padding:2px 8px;border-radius:10px;margin-right:6px;vertical-align:1px;white-space:nowrap;}
 .c1{background:rgba(63,158,107,.15);color:#7fcfa3;border:1px solid rgba(63,158,107,.3);}
 .c2{background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.3);}
 .c3{background:rgba(189,195,199,.08);color:var(--muted);border:1px solid rgba(237,228,204,.15);}
-.f-text h3{font-size:13px;letter-spacing:1.5px;color:var(--gold);margin:22px 0 8px;font-weight:600;}
+.f-text h3{font-size:15.5px;letter-spacing:.2px;color:var(--gold);margin:26px 0 10px;font-weight:700;padding-left:13px;border-left:3px solid rgba(201,168,76,.55);line-height:1.4;}
 .f-text h3:first-child{margin-top:0;}
+.balance-wrap{margin:14px 0 18px;}
+.balance-nums{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:7px;}
+.balance-nums b{color:var(--parchment);font-size:15px;}
+.bn-r{text-align:right;}
+.balance-bar{display:flex;height:10px;border-radius:6px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.25);}
+.balance-seg{height:100%;}
 .report-table{width:100%;border-collapse:collapse;font-size:12.5px;}
 .report-table td{padding:7px 10px;border-bottom:1px solid rgba(201,168,76,.08);vertical-align:top;line-height:1.7;color:var(--parchment);}
 .report-table tr:last-child td{border-bottom:none;}
+.report-table tr:nth-child(even) td{background:rgba(255,255,255,.012);}
 .report-table td:first-child{width:110px;color:var(--gold);opacity:.75;letter-spacing:1px;font-size:11px;white-space:nowrap;}
-.du-detail{border:1px solid rgba(201,168,76,.14);border-radius:12px;background:rgba(255,255,255,.018);padding:18px 20px;margin-bottom:12px;}
-.du-detail.now{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.05);}
+.du-detail{border:1px solid rgba(201,168,76,.16);border-radius:16px;background:linear-gradient(160deg,rgba(169,146,214,.035),rgba(255,255,255,.012));backdrop-filter:blur(6px);padding:18px 20px;margin-bottom:12px;}
+.du-detail.now{border-color:rgba(201,168,76,.52);background:linear-gradient(160deg,rgba(201,168,76,.08),rgba(169,146,214,.04));box-shadow:0 0 30px rgba(201,168,76,.1);}
 .dud-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px;}
 .dud-title{font-family:'Noto Serif KR',serif;font-size:15px;color:var(--parchment);font-weight:600;}
 .dud-years{font-size:11px;color:var(--faint);}
@@ -182,9 +213,9 @@ h1{font-family:'Cinzel Decorative','Noto Serif KR',serif;font-size:clamp(22px,5.
 .seun-y{width:98px;flex-shrink:0;color:var(--gold);font-family:'Noto Serif KR',serif;}
 .seun-t{flex:1;color:var(--muted);}
 .seun-t b{color:var(--parchment);}
-.sec-desc{font-size:12px;color:var(--muted);font-style:italic;text-align:center;line-height:1.8;margin:-8px 0 18px;padding:0 14px;}
+.sec-desc{font-size:12.5px;color:var(--muted);font-style:normal;text-align:left;line-height:1.85;margin:-2px 0 20px;padding:12px 18px;border-left:2px solid rgba(169,146,214,.35);background:linear-gradient(120deg,rgba(169,146,214,.035),rgba(255,255,255,.01));border-radius:0 12px 12px 0;}
 .chars-wrap{width:100%;margin-bottom:36px;}
-.char-group{border:1px solid rgba(201,168,76,.12);border-radius:10px;background:rgba(255,255,255,.015);padding:14px 16px;margin-bottom:10px;}
+.char-group{border:1px solid rgba(201,168,76,.14);border-radius:14px;background:linear-gradient(160deg,rgba(169,146,214,.035),rgba(255,255,255,.012));padding:14px 16px;margin-bottom:10px;}
 .char-role{font-size:12px;color:var(--gold);opacity:.85;margin-bottom:10px;letter-spacing:.5px;line-height:1.6;}
 .char-item{display:flex;align-items:center;gap:14px;padding:6px 0;}
 .char-han{font-family:'Noto Serif KR',serif;font-size:24px;width:36px;text-align:center;flex-shrink:0;}
@@ -205,12 +236,13 @@ h1{font-family:'Cinzel Decorative','Noto Serif KR',serif;font-size:clamp(22px,5.
 </style>
 </head>
 <body>
+<div id="aurora"><span></span><span></span><span></span></div>
 <canvas id="starCanvas"></canvas>
 
 <div class="wrap">
   <p class="eyebrow">✦ &nbsp; 正統 命理 &nbsp; ✦</p>
   <h1>사주 분석</h1>
-  <p class="sub">태어난 순간의 하늘 — 절기·진태양시·역사적 표준시 보정까지 반영한 명식</p>
+  <p class="sub">생년월일시로 풀어보는 나의 사주팔자</p>
   <div class="rule"></div>
 
   <div class="form-panel" id="formPanel">
@@ -220,10 +252,10 @@ h1{font-family:'Cinzel Decorative','Noto Serif KR',serif;font-size:clamp(22px,5.
         <input type="text" id="nameIn" placeholder="홍길동" maxlength="16"/>
       </div>
       <div class="field">
-        <label>성별 <span class="req">*</span> <span style="opacity:.7">(대운·연애운 계산에 사용)</span></label>
+        <label>성별 <span class="req">*</span></label>
         <div class="seg" id="genderSeg">
-          <button type="button" data-g="F">여자</button>
           <button type="button" data-g="M">남자</button>
+          <button type="button" data-g="F">여자</button>
         </div>
       </div>
     </div>
@@ -252,7 +284,6 @@ h1{font-family:'Cinzel Decorative','Noto Serif KR',serif;font-size:clamp(22px,5.
         </div>
       </div>
     </div>
-    <p class="hint">※ 일·시주는 표준시가 아닌 태어난 지역의 진태양시 기준으로 계산합니다. 동경 127.5° 표준시 사용 기간(1908.4.1~1911.12.31, 1954.3.21~1961.8.9)과 서머타임 시행 12개 기간(1948~1960, 1987~1988)의 시각 보정이 자동 적용됩니다.</p>
   </div>
 
   <div class="vmsg" id="vmsg"></div>
@@ -275,44 +306,45 @@ h1{font-family:'Cinzel Decorative','Noto Serif KR',serif;font-size:clamp(22px,5.
     <div class="fortune-wrap" id="pandokWrap"></div>
 
     <div class="saju-board">
-      <p class="section-label">— &nbsp; 사주 원국 (四柱原局) &nbsp; —</p>
+      <p class="section-label"><span class="cat-num">2</span>사주 원국</p>
       <p class="sec-desc">'원국(原局)'은 타고난 판이라는 뜻입니다. 각 기둥의 윗글자가 천간(하늘의 기운), 아랫글자가 지지(땅의 기운)이고, 글자 옆의 작은 표시는 그 글자가 나(일간)와 맺는 관계(십성)입니다.</p>
       <div class="saju-grid" id="sajuGrid"></div>
     </div>
 
     <div class="chars-wrap">
-      <p class="section-label">— &nbsp; 여덟 글자 하나하나 &nbsp; —</p>
+      <p class="section-label"><span class="cat-num">3</span>여덟 글자 하나하나</p>
       <p class="sec-desc">사주(四柱)는 태어난 연·월·일·시 네 기둥을 각각 하늘의 글자(천간)와 땅의 글자(지지), 두 글자씩으로 적은 것입니다. 내 사주에 어떤 글자가 있는지 하나씩 뜯어봅니다.</p>
       <div id="charList"></div>
     </div>
 
     <div class="ohaeng-wrap">
-      <p class="section-label">— &nbsp; 오행 분포 &nbsp; —</p>
+      <p class="section-label"><span class="cat-num">4</span>오행 분포</p>
       <p class="sec-desc">오행(五行)은 세상을 이루는 다섯 기운 — 목(나무)·화(불)·토(흙)·금(쇠)·수(물)입니다. 내 여덟 글자가 어느 기운에 몰려 있고 어디가 비어 있는지 봅니다.</p>
+      <div id="ohaengRadar"></div>
       <div id="ohaengBars"></div>
       <p class="oh-note" id="ohaengNote"></p>
     </div>
 
     <div class="sipsin-wrap">
-      <p class="section-label">— &nbsp; 십성 (十星) &nbsp; —</p>
+      <p class="section-label"><span class="cat-num">5</span>십성 — 나와 다른 글자의 관계</p>
       <p class="sec-desc">십성(十星)은 각 글자가 '나(일간)'와 맺는 관계에 붙인 열 가지 이름입니다. 크게 다섯 묶음 — 비겁(동료), 식상(재능), 재성(돈), 관성(직장), 인성(공부·귀인) — 으로 이해하면 쉽습니다.</p>
       <div class="sipsin-list" id="sipsinList"></div>
     </div>
 
     <div class="sinsal-wrap">
-      <p class="section-label">— &nbsp; 신살 · 귀인 &nbsp; —</p>
+      <p class="section-label"><span class="cat-num">6</span>신살과 귀인</p>
       <p class="sec-desc">신살(神殺)은 특정 글자들의 조합이 만드는 특별한 기운입니다. 여기서는 대표 3가지 — 도화(매력), 역마(이동), 화개(몰입·예술) — 를 삼합(글자 세 개의 짝) 이론으로 계산합니다.</p>
       <div class="sinsal-list" id="sinsalList"></div>
     </div>
 
     <div class="sinsal-wrap">
-      <p class="section-label">— &nbsp; 합(合)과 충(沖) &nbsp; —</p>
+      <p class="section-label"><span class="cat-num">7</span>합과 충 — 글자들의 궁합</p>
       <p class="sec-desc">합은 글자끼리 끌어당겨 묶이는 관계, 충은 정면으로 부딪혀 흔드는 관계입니다. 합이 많으면 인연과 정이 얽히고, 충이 있으면 그 자리(기둥)의 영역에 변동이 잦다고 봅니다.</p>
       <div class="sinsal-list" id="hapchungList"></div>
     </div>
 
     <div class="daeun-wrap">
-      <p class="section-label">— &nbsp; 대운 (大運) &nbsp; —</p>
+      <p class="section-label"><span class="cat-num">8</span>대운 — 10년마다 바뀌는 흐름</p>
       <p class="sec-desc">대운(大運)은 10년마다 바뀌는 인생의 큰 계절입니다. 좋고 나쁨이 아니라 "지금 어떤 기운의 시기를 지나는가"로 읽습니다. 금색 테두리가 현재 구간입니다.</p>
       <p class="daeun-info" id="daeunInfo"></p>
       <div class="daeun-strip" id="daeunStrip"></div>
@@ -323,7 +355,7 @@ h1{font-family:'Cinzel Decorative','Noto Serif KR',serif;font-size:clamp(22px,5.
     <div class="fortune-wrap" id="seunWrap"></div>
 
     <div class="today-wrap">
-      <p class="section-label">— &nbsp; 오늘의 기운 &nbsp; —</p>
+      <p class="section-label"><span class="cat-num">12</span>오늘의 기운</p>
       <p class="sec-desc">오늘 날짜에도 두 글자(일진)가 붙습니다. 오늘의 글자와 내 일간의 관계로 하루의 흐름을 봅니다.</p>
       <div class="today-card" id="todayCard"></div>
     </div>
@@ -331,15 +363,29 @@ h1{font-family:'Cinzel Decorative','Noto Serif KR',serif;font-size:clamp(22px,5.
     <p class="disclaimer">계산 근거: 태양 황경 기반 24절기(연주·월주), 진태양시·서머타임·표준시 변경 보정(일주·시주), 지장간 정기 기준 십성, 12운성, 합·충·삼합, 천을귀인, 정운법 대운수, 세운 간지. 신강·신약과 격국·용신은 개수와 월지 정기 기반의 근사 판단으로 유파에 따라 다를 수 있으며, 모든 풀이는 명리학의 전통적 해석 관례를 따른 참고용입니다. 음력 입력은 지원하지 않습니다.</p>
   </div>
 </div>
-
 <script>
 /* ═══════════ STARS ═══════════ */
 const cv=document.getElementById('starCanvas'),cx=cv.getContext('2d');
 let stars=[];
+const STAR_TONES=['201,168,76','169,146,214','217,160,196','210,204,230'];
 function buildStars(){cv.width=innerWidth;cv.height=innerHeight;
-  stars=Array.from({length:170},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.1+.2,phase:Math.random()*Math.PI*2,speed:.003+Math.random()*.004,gold:Math.random()>.6}));}
+  stars=Array.from({length:190},()=>{
+    const big=Math.random()>.92;
+    return {x:Math.random()*cv.width,y:Math.random()*cv.height,r:big?(Math.random()*1.3+1.4):(Math.random()*1.1+.2),
+      phase:Math.random()*Math.PI*2,speed:.003+Math.random()*.004,big,
+      tone:STAR_TONES[Math.floor(Math.random()*STAR_TONES.length)],
+      dx:(Math.random()-.5)*.006,dy:(Math.random()-.5)*.006};
+  });}
 function tickStars(){cx.clearRect(0,0,cv.width,cv.height);const t=performance.now()/1000;
-  stars.forEach(s=>{const a=.15+.5*Math.abs(Math.sin(s.phase+t*s.speed));cx.beginPath();cx.arc(s.x,s.y,s.r,0,Math.PI*2);cx.fillStyle=s.gold?`rgba(201,168,76,${a})`:`rgba(200,190,220,${a*.7})`;cx.fill();});
+  stars.forEach(s=>{
+    s.x+=s.dx;s.y+=s.dy;
+    if(s.x<0)s.x=cv.width;if(s.x>cv.width)s.x=0;if(s.y<0)s.y=cv.height;if(s.y>cv.height)s.y=0;
+    const a=.15+.55*Math.abs(Math.sin(s.phase+t*s.speed));
+    cx.beginPath();cx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    if(s.big){cx.shadowBlur=10;cx.shadowColor=`rgba(${s.tone},${a})`;}else{cx.shadowBlur=0;}
+    cx.fillStyle=`rgba(${s.tone},${s.big?a*.95:a*.75})`;cx.fill();
+  });
+  cx.shadowBlur=0;
   requestAnimationFrame(tickStars);}
 buildStars();tickStars();addEventListener('resize',buildStars);
 
@@ -612,10 +658,10 @@ function strengthOf(s){
 }
 
 /* ═══════════ 신살 (삼합 기준) ═══════════ */
-const SAMHAP_GROUP=[0,2,1,3,0,2,1,3,0,2,1,3]; // 자→0(신자진) 축→2(사유축) 인→1(인오술) 묘→3(해묘미) ...
-const DOHWA=[9,3,6,0];   // 그룹별: 신자진→유, 인오술→묘, 사유축→오, 해묘미→자
-const YEOKMA=[2,8,11,5]; // 신자진→인, 인오술→신, 사유축→해, 해묘미→사
-const HWAGAE=[4,10,1,7]; // 신자진→진, 인오술→술, 사유축→축, 해묘미→미
+const SAMHAP_GROUP=[0,2,1,3,0,2,1,3,0,2,1,3];
+const DOHWA=[9,3,6,0];
+const YEOKMA=[2,8,11,5];
+const HWAGAE=[4,10,1,7];
 function findSinsal(s){
   const branches=[{pos:'년지',jj:s.year.jj},{pos:'월지',jj:s.month.jj},{pos:'일지',jj:s.day.jj}];
   if(s.hasTime)branches.push({pos:'시지',jj:s.hour.jj});
@@ -688,21 +734,53 @@ function renderChars(s){
 }
 
 
+function polarPt(cx,cy,r,angleDeg){const a=(angleDeg-90)*Math.PI/180;return [cx+r*Math.cos(a), cy+r*Math.sin(a)];}
+function ohaengRadarSVG(counts){
+  const order=['木','火','土','金','水'];
+  const max=Math.max(...order.map(k=>counts[k]),4);
+  const cx=110,cy=100,R=70;
+  let grid='';
+  [0.25,0.5,0.75,1].forEach(lv=>{
+    const pts=order.map((_,i)=>polarPt(cx,cy,R*lv,i*72).join(',')).join(' ');
+    grid+=`<polygon points="${pts}" fill="none" stroke="rgba(237,228,204,.14)" stroke-width="1"/>`;
+  });
+  order.forEach((k,i)=>{
+    const [x,y]=polarPt(cx,cy,R,i*72);
+    grid+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="rgba(237,228,204,.16)" stroke-width="1"/>`;
+  });
+  const valPts=order.map((k,i)=>polarPt(cx,cy,R*Math.min(counts[k]/max,1),i*72));
+  const valPath=valPts.map(p=>p.join(',')).join(' ');
+  let labels='';
+  order.forEach((k,i)=>{
+    const [x,y]=polarPt(cx,cy,R+24,i*72);
+    labels+=`<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-size="13" fill="${ELEM_COLOR[k]}" font-family="'Noto Serif KR',serif" font-weight="600">${ELEM_KOR[k].split('(')[0]}</text>`;
+    const [vx,vy]=valPts[i];
+    labels+=`<circle cx="${vx}" cy="${vy}" r="3.5" fill="${ELEM_COLOR[k]}"/>`;
+    labels+=`<text x="${vx}" y="${vy-9}" text-anchor="middle" font-size="11" fill="${ELEM_COLOR[k]}" font-weight="600">${counts[k]}</text>`;
+  });
+  return `<svg viewBox="0 0 220 200" style="width:100%;max-width:260px;display:block;margin:4px auto 18px;">
+    <defs><linearGradient id="radarFill" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#a992d6"/></linearGradient></defs>
+    ${grid}
+    <polygon points="${valPath}" fill="url(#radarFill)" fill-opacity="0.32" stroke="#c9a84c" stroke-width="2"/>
+    ${labels}
+  </svg>`;
+}
 function renderOhaeng(s){
   const counts=ohaengTally(s);
   const order=['木','火','土','金','水'];
   const max=Math.max(...order.map(k=>counts[k]),1);
   const min=Math.min(...order.map(k=>counts[k]));
+  document.getElementById('ohaengRadar').innerHTML=ohaengRadarSVG(counts);
   document.getElementById('ohaengBars').innerHTML=order.map(k=>`
     <div class="oh-row">
       <span class="oh-name" style="color:${ELEM_COLOR[k]}">${ELEM_KOR[k]}</span>
-      <div class="oh-track"><div class="oh-fill" style="width:${counts[k]/max*100}%;background:${ELEM_COLOR[k]}"></div></div>
+      <div class="oh-track"><div class="oh-fill" style="width:${counts[k]/max*100}%;background:${ELEM_COLOR[k]};color:${ELEM_COLOR[k]}"></div></div>
       <span class="oh-n">${counts[k]}</span>
     </div>`).join('');
   const weakest=order.filter(k=>counts[k]===min);
   const strongest=order.filter(k=>counts[k]===max);
   document.getElementById('ohaengNote').textContent=
-    `원국(천간·지지 ${s.hasTime?8:6}자 기준)에서 ${strongest.map(k=>ELEM_KOR[k]).join(', ')} 기운이 가장 두드러지고, ${weakest.map(k=>ELEM_KOR[k]).join(', ')} 기운이 상대적으로 약합니다.`;
+    `원국(천간·지지 ${s.hasTime?8:6}자 기준)에서 ${strongest.map(k=>ELEM_KOR[k]).join(', ')} 기운이 가장 두드러지고, ${weakest.map(k=>ELEM_KOR[k]).join(', ')} 기운이 상대적으로 약합니다.`;
   return {counts,weakest,strongest};
 }
 
@@ -904,7 +982,16 @@ function buildCtx(s,oh){
 }
 
 /* ═══════════ 공용 어휘 ═══════════ */
-const CHIP={1:'<span class="conf c1">거의 확실</span>',2:'<span class="conf c2">가능성</span>',3:'<span class="conf c3">참고</span>'};
+/* ═══════════ 한글 조사(이/가, 은/는, 을/를, 과/와, 로/으로) 자동 처리 ═══════════ */
+function josa(word,withBatchim,withoutBatchim){
+  if(!word)return withoutBatchim;
+  const m=String(word).match(/[가-힣]/g);
+  if(!m||!m.length)return withoutBatchim;
+  const code=m[m.length-1].charCodeAt(0)-0xAC00;
+  if(code<0||code>11171)return withoutBatchim;
+  return (code%28!==0)?withBatchim:withoutBatchim;
+}
+const CHIP={1:'<span class="conf c1">거의 확실</span>\u00A0',2:'<span class="conf c2">가능성</span>\u00A0',3:'<span class="conf c3">참고</span>\u00A0'};
 const GRP_EASY={'비겁':'비겁(比劫) — 나와 같은 기운. 자립심·형제·동료','식상':'식상(食傷) — 내가 만들어내는 기운. 말·재능·창작','재성':'재성(財星) — 내가 거두는 기운. 돈·성과·현실 감각','관성':'관성(官星) — 나를 이끄는 기운. 직장·책임·명예','인성':'인성(印星) — 나를 길러주는 기운. 공부·문서·귀인'};
 const DU_EASY={'비겁':'내 힘이 붙는 시기. 주체적으로 판을 키우기 좋고, 사람(동료)을 통해 기회가 옵니다','식상':'재능과 표현이 피어나는 시기. 새로운 시도, 창작, 배운 것을 세상에 내놓는 일이 잘 풀립니다','재성':'성과와 실리가 부각되는 시기. 움직인 만큼 결실이 따르고, 돈과 관련된 결정이 잦아집니다','관성':'책임과 자리가 무거워지는 시기. 직장·직책·명예와 관련된 변화가 자주 찾아옵니다','인성':'배움과 준비의 시기. 공부·자격·문서운이 살아나고, 내실을 다지기에 가장 좋습니다'};
 const GRP_KW={'비겁':['자립','경쟁'],'식상':['표현','창작'],'재성':['재물','성과'],'관성':['자리','책임'],'인성':['공부','문서']};
@@ -920,7 +1007,7 @@ function renderPandok(ctx){
   const jjgLine=branches.map(b=>b.pos+' '+JIJANGGAN[b.idx].join('')).join(' · ');
   const usLine=branches.map(b=>b.pos+' '+unseong(s.day.cg,b.idx)).join(' · ');
   const sinsalKeys=Object.keys(ctx.sinsal);
-  const sinsalLine=(sinsalKeys.length?sinsalKeys.map(k=>k+'살').join(', '):'없음')+(ctx.ce.length?' · 천을귀인('+ctx.ce.map(b=>JJH[b.idx]).join(',')+')':'');
+  const sinsalLine=(sinsalKeys.length?sinsalKeys.map(k=>k+'살').join(', '):'없음')+(ctx.ce.length?' · 천을귀인('+ctx.ce.map(b=>JJH[b.idx]).join(',')+')':'');
   const ohLine=Object.entries(ctx.oh.counts).map(([k,v])=>ELEM_KOR[k]+' '+v).join(' · ');
   const rows=[
     ['생년월일시',`${s.birth.y}년 ${s.birth.m}월 ${s.birth.d}일 ${s.hasTime?`${s.birth.hour}시 ${String(s.birth.minute).padStart(2,'0')}분`:'시각 확인 불가(미입력)'} · 양력 · ${s.gender==='M'?'남':'여'}`],
@@ -933,7 +1020,7 @@ function renderPandok(ctx){
     ['대운',`대운수 ${s.daeunAge} · ${s.daeunForward?'순행':'역행'} · ${s.daeun.map(d=>d.age+'세 '+CG[d.cg]+JJ[d.jj]).join(' → ')}`],
   ];
   document.getElementById('pandokWrap').innerHTML=
-    '<p class="section-label">— &nbsp; STEP 1 · 명식 판독표 &nbsp; —</p>'+
+    '<p class="section-label"><span class="cat-num">1</span>명식 판독표</p>'+
     '<p class="sec-desc">입력하신 생년월일시로 계산된 모든 판독 정보를 먼저 정리합니다. 아래의 모든 풀이는 이 표에 적힌 것만을 근거로 삼습니다.</p>'+
     '<div class="f-card"><table class="report-table">'+rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')+'</table></div>';
 }
@@ -942,22 +1029,28 @@ function renderPandok(ctx){
 function renderHapChung(ctx){
   const {hc}=ctx;
   const items=[];
-  hc.ganHap.forEach(h=>items.push(['천간합 '+CGH[h.a.idx]+CGH[h.b.idx],`${h.a.pos} ${CG[h.a.idx]}와 ${h.b.pos} ${CG[h.b.idx]}가 합(合)하여 ${h.to} 기운으로 묶입니다. 두 자리의 영역(예: 나와 부모, 나와 사회)이 정으로 얽혀 서로 끌어당기는 구조입니다.`]));
-  hc.ganChung.forEach(h=>items.push(['천간충 '+CGH[h.a.idx]+CGH[h.b.idx],`${h.a.pos} ${CG[h.a.idx]}와 ${h.b.pos} ${CG[h.b.idx]}가 정면으로 부딪힙니다. 두 자리 사이에 갈등·긴장·큰 결단이 반복되는 구조입니다.`]));
-  hc.jiChung.forEach(h=>items.push(['지지충 '+JJH[h.a.idx]+JJH[h.b.idx],`${h.a.pos} ${JJ[h.a.idx]}와 ${h.b.pos} ${JJ[h.b.idx]}의 충(沖). 해당 자리의 영역 — ${chungMeaning(h)} — 에 변동과 이동이 잦은 구조입니다.`]));
-  hc.jiHap.forEach(h=>items.push(['지지육합 '+JJH[h.a.idx]+JJH[h.b.idx],`${h.a.pos} ${JJ[h.a.idx]}와 ${h.b.pos} ${JJ[h.b.idx]}의 합. 두 영역이 정답게 묶여 안정을 만드는 구조입니다.`]));
-  hc.samhap.forEach(h=>items.push([(h.full?'삼합':'반합')+' '+h.name,`${h.members.map(m=>m.pos+' '+JJ[m.idx]).join(', ')}이 ${h.full?'셋 다 모여 완전한':'왕지를 낀 절반의'} 세력을 이룹니다. 이 국(局)의 오행이 사주에서 실제보다 크게 작동합니다.`]));
+  hc.ganHap.forEach(h=>items.push(['천간합 '+CGH[h.a.idx]+CGH[h.b.idx],`${h.a.pos} ${CG[h.a.idx]}${josa(CG[h.a.idx],'과','와')} ${h.b.pos} ${CG[h.b.idx]}${josa(CG[h.b.idx],'이','가')} 합(合)하여 ${h.to} 기운으로 묶입니다. 두 자리의 영역(예: 나와 부모, 나와 사회)이 정으로 얽혀 서로 끌어당기는 구조입니다.`]));
+  hc.ganChung.forEach(h=>items.push(['천간충 '+CGH[h.a.idx]+CGH[h.b.idx],`${h.a.pos} ${CG[h.a.idx]}${josa(CG[h.a.idx],'과','와')} ${h.b.pos} ${CG[h.b.idx]}${josa(CG[h.b.idx],'이','가')} 정면으로 부딪힙니다. 두 자리 사이에 갈등·긴장·큰 결단이 반복되는 구조입니다.`]));
+  hc.jiChung.forEach(h=>items.push(['지지충 '+JJH[h.a.idx]+JJH[h.b.idx],`${h.a.pos} ${JJ[h.a.idx]}${josa(JJ[h.a.idx],'과','와')} ${h.b.pos} ${JJ[h.b.idx]}의 충(沖). 해당 자리의 영역 — ${chungMeaning(h)} — 에 변동과 이동이 잦은 구조입니다.`]));
+  hc.jiHap.forEach(h=>items.push(['지지육합 '+JJH[h.a.idx]+JJH[h.b.idx],`${h.a.pos} ${JJ[h.a.idx]}${josa(JJ[h.a.idx],'과','와')} ${h.b.pos} ${JJ[h.b.idx]}의 합. 두 영역이 정답게 묶여 안정을 만드는 구조입니다.`]));
+  hc.samhap.forEach(h=>items.push([(h.full?'삼합':'반합')+' '+h.name,`${h.members.map(m=>m.pos+' '+JJ[m.idx]).join(', ')}${josa(JJ[h.members[h.members.length-1].idx],'이','가')} ${h.full?'셋 다 모여 완전한':'왕지를 낀 절반의'} 세력을 이룹니다. 이 국(局)의 오행이 사주에서 실제보다 크게 작동합니다.`]));
   document.getElementById('hapchungList').innerHTML = items.length
     ? items.map(it=>`<div class="sn-item"><span class="sn-name">${it[0]}</span><span class="sn-desc">${it[1]}</span></div>`).join('')
     : '<p class="sn-none">원국 안에서 성립하는 합·충이 없습니다. 글자끼리 서로 간섭하지 않아, 각 기둥이 제 역할을 담백하게 해내는 구조입니다.</p>';
 }
 function chungMeaning(h){
   const area={'년지':'조상·초년','월지':'부모·직장 환경','일지':'배우자·내 자리','시지':'자녀·말년'};
-  return `${area[h.a.pos]}과 ${area[h.b.pos]}`;
+  return `${area[h.a.pos]}${josa(area[h.a.pos],'과','와')} ${area[h.b.pos]}`;
 }
+
 
 /* ═══════════ STEP 2~12 보고서 ═══════════ */
 function para(...ps){return ps.filter(Boolean).join('<br><br>');}
+function balanceBar(support,drain){
+  const total=support+drain||1;
+  const sp=Math.round(support/total*100), dp=100-sp;
+  return `<div class="balance-wrap"><div class="balance-nums"><span class="bn-l"><b>${support}</b>\u00A0나를 돕는 힘</span><span class="bn-r">힘을 빼가는 힘\u00A0<b>${drain}</b></span></div><div class="balance-bar"><div class="balance-seg" style="width:${sp}%;background:linear-gradient(90deg,#a992d6,#c9a84c)"></div><div class="balance-seg" style="width:${dp}%;background:linear-gradient(90deg,#2a2140,#1a1428)"></div></div></div>`;
+}
 
 function stepGrit(ctx){
   const {s,oh,g,str,ys,gyeok,hc}=ctx;
@@ -968,7 +1061,7 @@ function stepGrit(ctx){
   const season=SEASON_OF[s.month.jj], se=SEASON_ELEM[season];
   let t='';
   t+=`<h3>일간의 본질</h3>${CHIP[1]}${s.name}님의 일간(日干, 사주에서 '나'를 뜻하는 글자)은 <b>${CG[s.day.cg]}(${CGH[s.day.cg]})</b>입니다. ${ILGAN_PROFILE[s.day.cg]} 이 기질은 삶에서 이렇게 나타납니다 — ${DM_LIFE[dm]}`;
-  t+=`<h3>신강·신약 판정</h3>${margin>=2?CHIP[1]:CHIP[2]}신강(身強)은 '나를 받쳐주는 힘이 센 사주', 신약(身弱)은 '기운이 밖으로 흘러나가 내 힘이 여린 사주'를 말합니다. 판정 근거: 나를 돕는 글자(비겁·인성)의 힘 <b>${str.support}</b> 대 힘을 빼가는 글자(식상·재성·관성) <b>${str.drain}</b> (월지는 계절의 사령관이라 2배 가중). 따라서 이 사주는 <b>${str.strong?'신강':'신약'}</b>${margin<2?' — 다만 차이가 크지 않아 중화(中和)에 가까운 경계선의 명식입니다':''}. ${str.strong?'제 힘으로 밀고 나갈 때 살고, 힘이 갈 곳을 잃으면 고집과 충돌로 변합니다.':'혼자 다 짊어지면 반드시 지치는 구조라, 배움과 사람의 지원이 곧 생존 전략입니다.'}`;
+  t+=`<h3>신강·신약 판정</h3>${margin>=2?CHIP[1]:CHIP[2]}신강(身強)은 '나를 받쳐주는 힘이 센 사주', 신약(身弱)은 '기운이 밖으로 흘러나가 내 힘이 여린 사주'를 말합니다. 판정 근거: 나를 돕는 글자(비겁·인성)의 힘 <b>${str.support}</b> 대 힘을 빼가는 글자(식상·재성·관성) <b>${str.drain}</b> (월지는 계절의 사령관이라 2배 가중).${balanceBar(str.support,str.drain)}따라서 이 사주는 <b>${str.strong?'신강':'신약'}</b>${margin<2?' — 다만 차이가 크지 않아 중화(中和)에 가까운 경계선의 명식입니다':''}. ${str.strong?'제 힘으로 밀고 나갈 때 살고, 힘이 갈 곳을 잃으면 고집과 충돌로 변합니다.':'혼자 다 짊어지면 반드시 지치는 구조라, 배움과 사람의 지원이 곧 생존 전략입니다.'}`;
   t+=`<h3>태어난 계절 — 월지의 힘</h3>${CHIP[1]}${s.name}님은 ${JJH[s.month.jj]}(${JJ[s.month.jj]})월, 곧 <b>${season}</b>에 태어났습니다. ${season}은 ${ELEM_KOR[se]} 기운이 왕성한 계절입니다. `;
   if(se===dm)t+=`일간과 같은 기운의 계절 — <b>득령(得令)</b>이라 하여, 제철에 태어난 초목처럼 뿌리가 튼튼합니다. 이것이 이 사주가 버티는 힘의 근원입니다.`;
   else if(GENERATES[se]===dm)t+=`계절의 기운이 일간을 낳아주는 구조라, 태어난 철 자체가 나를 기르는 어머니 역할을 합니다. 든든한 배경입니다.`;
@@ -977,11 +1070,11 @@ function stepGrit(ctx){
   if(season==='여름')t+=` ${CHIP[3]}또한 여름생은 사주가 뜨겁고 마르기 쉬워(조열), 수(水) 기운이 약이 됩니다.`;
   if(season==='겨울')t+=` ${CHIP[3]}또한 겨울생은 사주가 차갑기 쉬워(한랭), 화(火) 기운이 약이 됩니다.`;
   t+=`<h3>격국 — 사주의 짜임새</h3>${CHIP[3]}격국(格局)이란 사주의 큰 틀, 곧 '이 사람이 세상에서 무엇으로 승부하도록 짜였는가'입니다. 월지의 중심 기운으로 근사하면 이 사주는 <b>${gyeok.name}</b> — ${GYEOK_DESC[gyeok.name]} (월지 정기만으로 잡은 근사 판단이니 참고 수준으로 보십시오.)`;
-  t+=`<h3>용신·희신·기신</h3>${CHIP[3]}용신(用神)은 사주의 균형을 잡아주는 <b>약이 되는 기운</b>, 희신(喜神)은 그 약을 돕는 기운, 기신(忌神)은 약을 해치는 기운입니다. 이 사주의 용신은 <b>${ELEM_KOR[ys.yong]}</b>, 희신은 ${ELEM_KOR[ys.hee]}, 기신은 <b>${ELEM_KOR[ys.gi]}</b>로 봅니다(억부법 근사). 삶으로 번역하면 — ${ELEM_KOR[ys.yong]} 기운이 들어오는 대운·세운에 인생이 풀리고, 평소에는 ${ELEM_REMEDY[ys.yong]} 같은 것이 체질에 맞는 처방입니다. 반대로 ${ELEM_KOR[ys.gi]} 기운이 강해지는 시기에는 탈이 나기 쉬우니 그 시기에 큰 판을 벌이지 마십시오.`;
+  t+=`<h3>용신·희신·기신</h3>${CHIP[3]}용신(用神)은 사주의 균형을 잡아주는 <b>약이 되는 기운</b>, 희신(喜神)은 그 약을 돕는 기운, 기신(忌神)은 약을 해치는 기운입니다. 이 사주의 용신은 <b>${ELEM_KOR[ys.yong]}</b>, 희신은 ${ELEM_KOR[ys.hee]}, 기신은 <b>${ELEM_KOR[ys.gi]}</b>${josa(ELEM_KOR[ys.gi],'으로','로')} 봅니다(억부법 근사). 삶으로 번역하면 — ${ELEM_KOR[ys.yong]} 기운이 들어오는 대운·세운에 인생이 풀리고, 평소에는 ${ELEM_REMEDY[ys.yong]} 같은 것이 체질에 맞는 처방입니다. 반대로 ${ELEM_KOR[ys.gi]} 기운이 강해지는 시기에는 탈이 나기 쉬우니 그 시기에 큰 판을 벌이지 마십시오.`;
   const themes=[];
   themes.push(`<b>${sorted[0][0]}</b>의 주제 — ${GRP_EASY[sorted[0][0]].split(' — ')[1]}의 문제가 인생에 반복해서 등장합니다`);
-  zeroG.slice(0,2).forEach(z=>themes.push(`<b>${z} 공백</b> — ${GRP_EASY[z].split(' — ')[1]}은 타고나지 않아, 살면서 배워 채워야 하는 숙제입니다`));
-  if(hc.jiChung.length)themes.push(`<b>충의 변동</b> — ${hc.jiChung.map(h=>h.a.pos+'·'+h.b.pos).join(', ')}의 충 때문에 그 영역의 자리를 옮기고 다시 세우는 일이 반복됩니다`);
+  zeroG.slice(0,2).forEach(z=>themes.push(`<b>${z} 공백</b> — ${GRP_EASY[z].split(' — ')[1]}${josa(GRP_EASY[z].split(' — ')[1],'은','는')} 타고나지 않아, 살면서 배워 채워야 하는 숙제입니다`));
+  if(hc.jiChung.length)themes.push(`<b>충의 변동</b> — ${hc.jiChung.map(h=>h.a.pos+'·'+h.b.pos).join(', ')}의 충 때문에 그 영역의 자리를 옮기고 다시 세우는 일이 반복됩니다`);
   if(ctx.sinsal['역마'])themes.push('<b>이동</b> — 역마의 사주라, 머무름과 떠남 사이의 선택이 평생의 화두입니다');
   if(ctx.sinsal['화개'])themes.push('<b>몰입과 고독</b> — 화개의 사주라, 홀로 깊어지는 시간과 세상과 섞이는 시간의 균형이 화두입니다');
   t+=`<h3>평생 반복되는 인생 주제</h3>${CHIP[2]}${themes.slice(0,5).map((x,i)=>`${i+1}. ${x}`).join('<br>')}`;
@@ -995,34 +1088,44 @@ function stepGrit(ctx){
   if(!emo.length)emo.push('감정의 파고가 크지 않은 담백한 구조입니다. 다만 담백함이 무심함으로 비칠 수 있습니다');
   t+=`<h3>감정 처리와 스트레스의 방식</h3>${CHIP[2]}${emo.join('. ')}.`;
   t+=`<h3>이 사주의 가장 근본적인 숙제</h3>${CHIP[2]}${ELEM_KOR[oh.weakest[0]]} 기운(${ELEM_MEANING[oh.weakest[0]]})이 약하고 ${zeroG.length?zeroG[0]+'의 영역이 비어 있는':'십성의 균형이 한쪽으로 쏠린'} 사주입니다. 결국 이 사람의 평생 숙제는 <b>타고나지 않은 것을 미워하지 않고 배우는 일</b>입니다. 강한 것으로 이기고, 없는 것은 사람과 습관으로 메우십시오. 그것이 이 명식이 가장 크게 커지는 길입니다.`;
-  return {title:'타고난 그릇',tag:'STEP 2 · 일간 · 신강약 · 격국 · 용신',text:t,total:true};
+  return {title:'타고난 그릇',tag:'일간 · 신강약 · 격국 · 용신',text:t,total:true};
 }
 
 function stepLifeArc(ctx){
   const {s,ys}=ctx;
   const bands=[['유년기',0,9],['10대',10,19],['20대',20,29],['30대',30,39],['40대',40,49],['50대',50,59],['60대 이후',60,79]];
-  const nowY=new Date().getFullYear();
-  let t=`대운(大運, 10년마다 바뀌는 인생의 큰 계절)의 배열을 따라 인생 전체의 흐름을 짚습니다. ${CHIP[2]}각 시기의 '분위기'는 그 대운의 기운이 용신(약)인지 기신(독)인지, 그리고 어떤 십성의 국면인지로 판정합니다.`;
+  let t='';
   const turns=[];
   bands.forEach(b=>{
     const dus=s.daeun.filter(d=>d.age<=b[2]&&d.age+9>=b[1]);
-    let line='';
+    let body='';
     if(!dus.length){
-      line=`아직 대운이 시작되기 전. 원국(타고난 판)의 기운이 그대로 드러나는 시기로, 집안 환경과 타고난 기질이 인생의 밑그림을 그립니다.`;
+      body=`${CHIP[2]}아직 대운이 시작되기 전입니다. 원국(타고난 판)의 기운이 그대로 드러나는 시기로, 집안 환경과 타고난 기질이 인생의 밑그림을 그립니다.`;
     } else {
-      line=dus.map(d=>{
-        const sg=grpOfStem(s,d.cg), be=STEM_ELEM[d.cg];
-        const mood=be===ys.yong?'크게 풀리는 구간':(be===ys.gi?'버티고 지켜야 하는 구간':'평이하게 흐르는 구간');
+      const parts=dus.map(d=>{
+        const sg=grpOfStem(s,d.cg);
         const chung=JI_CHUNG.some(p=>(p[0]===d.jj&&p[1]===s.day.jj)||(p[1]===d.jj&&p[0]===s.day.jj));
-        if(chung)turns.push(`${d.age}세 무렵(${s.birth.y+d.age-1}년경) — 대운 ${CG[d.cg]}${JJ[d.jj]}이 일지를 충. 사는 곳·직장·관계 중 무언가가 크게 바뀌는 전환점`);
-        return `${d.age}세~ ${CG[d.cg]}${JJ[d.jj]} 대운: <b>${sg}운 · ${mood}</b>. ${DU_EASY[sg]}${chung?'. 이 구간에 일지 충이 걸려 자리의 변동이 함께 옵니다':''}`;
-      }).join(' / ');
+        if(chung)turns.push(`${d.age}세 무렵(${s.birth.y+d.age-1}년경) — 대운 ${CG[d.cg]}${JJ[d.jj]}${josa(JJ[d.jj],'이','가')} 일지를 충. 사는 곳·직장·관계 중 무언가가 크게 바뀌는 전환점`);
+        return {age:d.age,gz:CG[d.cg]+JJ[d.jj],sg,chung};
+      });
+      const be0=STEM_ELEM[dus[0].cg];
+      const mood=be0===ys.yong?'크게 풀리는 흐름':(be0===ys.gi?'버티고 지켜야 하는 흐름':'평이하게 흐르는 시기');
+      if(parts.length===1){
+        const p=parts[0];
+        body=`${CHIP[2]}<b>${p.age}세~ ${p.gz} 대운</b> — ${p.sg}운이 들어오는 ${mood}입니다. ${DU_EASY[p.sg]}${p.chung?'. 이 구간엔 일지 충까지 걸려 자리의 변동이 함께 옵니다':''}`;
+      } else {
+        const first=parts[0], last=parts[parts.length-1];
+        body=first.sg===last.sg
+          ? `${CHIP[2]}<b>${first.age}세~ ${first.gz} 대운</b>부터 <b>${last.age}세~ ${last.gz} 대운</b>까지, 쭉 ${first.sg}운이 이어지는 구간입니다. ${DU_EASY[first.sg]}`
+          : `${CHIP[2]}<b>${first.age}세~ ${first.gz} 대운</b>(${first.sg}운)에서 <b>${last.age}세~ ${last.gz} 대운</b>(${last.sg}운)으로 넘어가는 구간입니다. ${DU_EASY[last.sg]}`;
+        if(parts.some(p=>p.chung))body+='. 이 구간 어딘가에서 일지 충이 걸려 자리의 변동이 함께 옵니다';
+      }
     }
-    t+=`<h3>${b[0]}</h3>${line}.`;
+    t+=`<h3>${b[0]}</h3>${body}.`;
   });
   if(turns.length)t+=`<h3>인생의 방향이 꺾이는 전환점</h3>${CHIP[2]}${turns.map((x,i)=>`${i+1}. ${x}`).join('<br>')}`;
-  else t+=`<h3>인생의 방향이 꺾이는 전환점</h3>${CHIP[2]}대운이 일지를 직접 치는 구간은 없습니다. 방향 전환은 급격한 사건보다 대운이 바뀌는 해(${s.daeun.slice(0,4).map(d=>s.birth.y+d.age-1+'년경').join(', ')})마다 완만하게 옵니다.`;
-  return {title:'평생 운의 큰 그림',tag:'STEP 3 · 연령대별 흐름',text:t};
+  else t+=`<h3>인생의 방향이 꺾이는 전환점</h3>${CHIP[2]}대운이 일지를 직접 치는 구간은 없습니다. 방향 전환은 급격한 사건보다 대운이 바뀌는 해(${s.daeun.slice(0,4).map(d=>s.birth.y+d.age-1+'년경').join(', ')})마다 완만하게 옵니다.`;
+  return {title:'평생 운의 큰 그림',tag:'연령대별 흐름',text:t};
 }
 
 function stepMoney(ctx){
@@ -1033,15 +1136,15 @@ function stepMoney(ctx){
   if(type.startsWith('전문성'))t+=`무재(無財)는 '돈이 없다'가 아니라 '돈을 좇으면 오히려 달아나는 구조'입니다. 실력과 가치를 쌓으면 돈이 뒤따라오고, 재성이 운으로 들어오는 시기에 그동안 쌓은 것이 한꺼번에 값을 받습니다.`;
   else if(type.startsWith('성과'))t+=`정해진 월급보다 <b>움직인 만큼 버는 판</b>에서 커지는 구조입니다. 내 재능이 곧 상품이 되는 식상생재(食傷生財)의 길이 열려 있습니다.`;
   else t+=`조직 안에서 벌어 차곡차곡 쌓는 것이 가장 큰돈이 되는 구조입니다. 화려한 한 방보다 복리의 시간이 이 사주의 편입니다.`;
-  t+=`<h3>큰돈의 그릇과 지키는 힘</h3>${str.strong?CHIP[2]+'일간이 신강해 <b>들어온 돈을 쥐고 굴릴 힘이 있습니다</b>. 재물이 커져도 사람이 흔들리지 않는 그릇입니다.':CHIP[2]+'일간이 신약해, 감당 범위를 넘는 돈은 오히려 화가 됩니다(재다신약의 이치 — 재물은 많은데 쥘 힘이 부침). <b>규모보다 안정성</b>이 이 사주의 재테크 제1원칙입니다.'}`;
+  t+=`<h3>큰돈의 그릇과 지키는 힘</h3>${str.strong?CHIP[2]+'일간이 신강해 <b>들어온 돈을 쥐고 굴릴 힘이 있습니다</b>. 재물이 커져도 사람이 흔들리지 않는 그릇입니다.':CHIP[2]+'일간이 신약해, 감당 범위를 넘는 돈은 오히려 화가 됩니다(재다신약의 이치 — 재물은 많은데 쥘 힘이 부침). <b>규모보다 안정성</b>이 이 사주의 재테크 제1원칙입니다.'}`;
   const moneyDu=s.daeun.filter(d=>grpOfStem(s,d.cg)==='재성'||grpOfBranch(s,d.jj)==='재성');
-  t+=`<h3>돈이 붙는 시기 / 새는 시기</h3>${CHIP[2]}돈이 붙는 시기: ${moneyDu.length?moneyDu.map(d=>`<b>${d.age}세~ ${CG[d.cg]}${JJ[d.jj]} 대운</b>(${s.birth.y+d.age-1}년경부터)`).join(', ')+' — 재성이 운으로 들어와 벌이와 기회가 늘어나는 구간입니다':'재성 대운이 8개 대운 안에는 뚜렷하지 않아, 해마다 들어오는 세운의 재성 해(아래 STEP 11)를 잡는 것이 더 중요합니다'}. `;
+  t+=`<h3>돈이 붙는 시기 / 새는 시기</h3>${CHIP[2]}돈이 붙는 시기: ${moneyDu.length?moneyDu.map(d=>`<b>${d.age}세~ ${CG[d.cg]}${JJ[d.jj]} 대운</b>(${s.birth.y+d.age-1}년경부터)`).join(', ')+' — 재성이 운으로 들어와 벌이와 기회가 늘어나는 구간입니다':'재성 대운이 8개 대운 안에는 뚜렷하지 않아, 해마다 들어오는 세운의 재성 해를 잡는 것이 더 중요합니다'}. `;
   const geopDu=s.daeun.filter(d=>grpOfStem(s,d.cg)==='비겁');
   if(g['겁재']>=1&&g['재성']>=1)t+=`새는 구조: 원국에 겁재(劫財, 내 재물을 나눠 가는 형제의 별)가 재성과 함께 있어, <b>가까운 사람과의 돈거래·동업·보증에서 새는 위험</b>이 구조적으로 있습니다. ${CHIP[2]}`;
-  if(geopDu.length)t+=`특히 ${geopDu.map(d=>d.age+'세~').join(', ')} 비겁 대운에는 나눠 쓰고 빌려주는 일이 늘어나니 지갑의 문단속이 필요합니다.`;
+  if(geopDu.length)t+=`특히 ${geopDu.map(d=>d.age+'세~').join(', ')} 비겁 대운에는 나눠 쓰고 빌려주는 일이 늘어나니 지갑의 문단속이 필요합니다.`;
   if(!(g['겁재']>=1&&g['재성']>=1)&&!geopDu.length)t+=`겁재가 재성을 직접 노리는 구조는 아니어서, 사람 때문에 크게 잃는 위험은 평균 이하입니다. ${CHIP[2]}`;
   t+=`<h3>맞는 길과 피해야 할 패턴</h3>${CHIP[2]}맞는 길: ${type.startsWith('성과')?'성과급·인센티브형 직무, 자기 콘텐츠·기술의 상품화, 직접 운용':type.startsWith('전문성')?'전문 자격과 몸값을 키우는 투자(자기계발이 곧 재테크), 장기 적립':'급여 기반 + 장기 적립식 투자, 부동산 같은 묵직한 자산'}. 피해야 할 패턴: ${str.strong?'힘을 믿고 벌이는 무리한 확장과 레버리지':'남의 판에 큰돈을 태우는 일, 감당 밖의 대출·보증'} — 이것 하나만 지켜도 이 사주의 재물 곡선은 우상향합니다.`;
-  return {title:'돈',tag:'STEP 4 · 재성 · 식상 · 신강약 · 시기',text:t};
+  return {title:'돈',tag:'재성 · 식상 · 신강약 · 시기',text:t};
 }
 
 function stepWork(ctx){
@@ -1055,9 +1158,9 @@ function stepWork(ctx){
   if(g['상관']>=1&&(g['정관']>=1||g['편관']>=1))t+=` 단, 원국에 상관과 관성이 함께 있는 <b>상관견관(傷官見官)</b>의 구조 — 내 재능(상관)이 규칙과 윗사람(관)을 치받는 모양이라, 조직 갈등의 뿌리가 사주 안에 있습니다. 옳은 말도 절반만 하는 법을 익히는 것이 처세의 핵심입니다. ${CHIP[1]}`;
   t+=`<h3>승진운과 인정 욕구</h3>${CHIP[2]}${g['정관']>=1?'정관(正官, 바른 자리의 별)이 있어 승진·직책과 인연이 닿는 구조입니다. 인정받는 속도는 성실의 누적에 비례합니다.':'정관이 원국에 없어, 직급 사다리보다 실력과 성과로 인정받는 경로가 빠릅니다. 타이틀에 목매지 마십시오.'} 인정 욕구의 크기: ${g['관성']+g['상관']>=3?'큽니다 — 인정이 곧 연료인 사람이라, 인정 없는 환경에서는 시들해집니다':'중간 이하 — 남의 평가보다 자기 기준이 우선인 사람입니다'}.`;
   const jobDu=s.daeun.filter(d=>['관성','식상'].includes(grpOfStem(s,d.cg)));
-  t+=`<h3>이직·독립이 풀리는 시기 / 커리어 곡선</h3>${CHIP[2]}${jobDu.length?jobDu.map(d=>`<b>${d.age}세~ ${CG[d.cg]}${JJ[d.jj]} 대운</b>(${grpOfStem(s,d.cg)}운)`).join(', ')+' — 자리와 재능의 운이 들어와 이동·독립·시험의 문이 열리는 구간입니다':'관성·식상 대운이 뚜렷하지 않아, 세운(STEP 11)의 관성 해를 노리는 것이 유리합니다'}. 커리어가 피는 순서: ${['재성','관성'].includes(grpOfStem(s,s.daeun[0].cg))||['재성','관성'].includes(grpOfStem(s,s.daeun[1].cg))?'초반 대운에 재·관이 들어와 <b>일찍 피는 편</b>':'초반 대운이 준비의 운이라 <b>늦게 피는 대기만성형</b> — 초년의 더딤을 실패로 읽지 마십시오'}입니다.`;
+  t+=`<h3>이직·독립이 풀리는 시기 / 커리어 곡선</h3>${CHIP[2]}${jobDu.length?jobDu.map(d=>`<b>${d.age}세~ ${CG[d.cg]}${JJ[d.jj]} 대운</b>(${grpOfStem(s,d.cg)}운)`).join(', ')+' — 자리와 재능의 운이 들어와 이동·독립·시험의 문이 열리는 구간입니다':'관성·식상 대운이 뚜렷하지 않아, 해마다 들어오는 관성 해를 노리는 것이 유리합니다'}. 커리어가 피는 순서: ${['재성','관성'].includes(grpOfStem(s,s.daeun[0].cg))||['재성','관성'].includes(grpOfStem(s,s.daeun[1].cg))?'초반 대운에 재·관이 들어와 <b>일찍 피는 편</b>입니다.':'초반 대운이 준비의 운이라 <b>늦게 피는 대기만성형</b>입니다. 초년의 더딤을 실패로 읽지 마십시오.'}`;
   t+=`<h3>사람 상대 vs 결과물 승부, 그리고 무대</h3>${CHIP[2]}${(g['식상']>=2||sinsal['도화'])?'식상·도화의 힘이 있어 <b>사람을 상대하는 일</b>(영업·강의·상담·콘텐츠)에서 빛이 납니다':'말보다 결과물이 앞서는 구조라 <b>작업물로 승부하는 일</b>(개발·연구·제작·분석)이 유리합니다'}. 무대는 ${sinsal['역마']?'<b>넓을수록 좋습니다</b> — 역마가 있어 국내에 묶이지 말고 이동·출장·해외가 걸린 일에서 운이 열립니다':'깊을수록 좋습니다 — 역마가 없어 한 분야·한 지역에 뿌리내릴 때 열매가 큽니다'}.`;
-  return {title:'일',tag:'STEP 5 · 관성 · 식상 · 상관견관 · 시기',text:t};
+  return {title:'일',tag:'관성 · 식상 · 상관견관 · 시기',text:t};
 }
 
 function stepLove(ctx){
@@ -1066,7 +1169,6 @@ function stepLove(ctx){
   const spCnt=g[sp];
   const jeong=s.gender==='M'?g['정재']:g['정관'];
   const pyeon=s.gender==='M'?g['편재']:g['편관'];
-  const dayBrSS=branchSipsin(s.day.cg,s.day.jj);
   const hapGan=GAN_HAP.find(h=>h[0]===s.day.cg||h[1]===s.day.cg);
   const partner=hapGan[0]===s.day.cg?hapGan[1]:hapGan[0];
   let t='';
@@ -1080,8 +1182,8 @@ function stepLove(ctx){
   t+=`<h3>나와 맞는 사람의 결</h3>${CHIP[3]}천간합의 이치로, ${s.name}님의 일간 ${CG[s.day.cg]}(${CGH[s.day.cg]})와 합(合)이 되는 글자는 <b>${CG[partner]}(${CGH[partner]})</b>입니다. ${STEM_DETAIL[partner]} — 이런 결의 사람과 서로 끌어당기고 묶이는 인연입니다. 반대로 기신(${ELEM_KOR[ctx.ys.gi]}) 기운이 지나치게 강한 사람과는 오래 있을수록 내 균형이 무너지니 거리를 두십시오.`;
   const loveYears=seun.filter(y=>y.flags.some(f=>f.includes('연애')||f.includes('배우자성')||f.includes('도화')||f.includes('일지(배우자궁)와 합')));
   const shakeYears=seun.filter(y=>y.flags.some(f=>f.includes('일지와 충')));
-  t+=`<h3>연애운이 들어오는 시기 / 흔들리는 시기</h3>${CHIP[2]}들어오는 해: ${loveYears.length?loveYears.slice(0,4).map(y=>`<b>${y.Y}년(${CG[y.gz.cg]}${JJ[y.gz.jj]})</b>`).join(', '):'향후 12년 안에는 뚜렷한 해가 드뭅니다 — 대운의 배우자성 구간을 보십시오'}. 흔들리기 쉬운 해: ${shakeYears.length?shakeYears.map(y=>`${y.Y}년`).join(', ')+' — 일지(배우자궁)가 충을 맞아 관계의 재정비가 걸리는 해입니다':'일지를 치는 해가 당분간 없어 관계의 외풍은 적습니다'}.`;
-  return {title:'연애',tag:'STEP 6 · 배우자성 · 도화 · 합 · 시기',text:t};
+  t+=`<h3>연애운이 들어오는 시기 / 흔들리는 시기</h3>${CHIP[2]}들어오는 해: ${loveYears.length?loveYears.slice(0,4).map(y=>`<b>${y.Y}년(${CG[y.gz.cg]}${JJ[y.gz.jj]})</b>`).join(', '):'향후 12년 안에는 뚜렷한 해가 드뭅니다 — 대운의 배우자성 구간을 보십시오'}. 흔들리기 쉬운 해: ${shakeYears.length?shakeYears.map(y=>y.Y+'년').join(', ')+' — 일지(배우자궁)가 충을 맞아 관계의 재정비가 걸리는 해입니다':'일지를 치는 해가 당분간 없어 관계의 외풍은 적습니다'}.`;
+  return {title:'연애',tag:'배우자성 · 도화 · 합 · 시기',text:t};
 }
 
 function stepMarriage(ctx){
@@ -1097,9 +1199,9 @@ function stepMarriage(ctx){
   t+=`<h3>배우자궁이 말하는 배우자의 모습</h3>${CHIP[3]}일지(日支, 일간 바로 아래 글자)는 배우자가 머무는 방입니다. ${s.name}님의 배우자궁은 <b>${JJH[s.day.jj]}(${JJ[s.day.jj]})</b> — ${BRANCH_DETAIL[s.day.jj]} 이 방에 <b>${dayBrSS}</b>이 앉아 있으니, 배우자는 ${SIPSIN_DESC[dayBrSS].split('—')[1].trim()}의 결을 지닌 사람일 가능성이 높고, 12운성으로는 <b>${dayUs}</b>의 자리 — ${['장생','건록','제왕','관대'].includes(dayUs)?'배우자 자리에 힘이 실려 있어 생활력 있는 배우자, 결혼 후 커지는 살림입니다':'배우자 자리가 화려하기보다 담백해, 조건보다 사람 자체를 보고 골라야 후회가 없습니다'}.`;
   t+=`<h3>결혼 생활의 색깔과 갈등 포인트</h3>${CHIP[2]}${ilChung?`원국에서 <b>배우자궁이 충(沖)을 맞고 있습니다</b>. 결혼 생활에 파도가 아예 없기는 어려운 구조 — 주말부부·이사·직장 변동처럼 물리적 변화가 잦거나, 관계 자체가 몇 번의 고비를 넘습니다. 다만 충은 '깨짐'이 아니라 '움직임'입니다. 변화를 함께 겪는 동지가 되면 오히려 단단해집니다.`:`배우자궁에 충이 없어 결혼 생활의 기본 바탕은 안정입니다. 갈등은 밖(사건)보다 안(성격)에서 오니, ${dayBrSS==='비견'||dayBrSS==='겁재'?'친구 같지만 경쟁하게 되는':'서로의 역할 기대가 어긋나는'} 순간을 조심하십시오.`}`;
   const mYears=seun.filter(y=>y.flags.some(f=>f.includes('배우자성')||f.includes('일지(배우자궁)와 합')));
-  t+=`<h3>성사되기 쉬운 시기</h3>${CHIP[2]}${mYears.length?mYears.slice(0,4).map(y=>`<b>${y.Y}년(${CG[y.gz.cg]}${JJ[y.gz.jj]})</b>`).join(', ')+' — 배우자성이 들어오거나 배우자궁에 합이 걸리는 해로, 만남이 결실로 이어지기 좋은 해입니다':'향후 12년의 세운에서는 뚜렷한 해가 드물어, 대운에서 배우자성이 들어오는 구간이 더 큰 창입니다'}.`;
-  t+=`<h3>자녀운</h3>${CHIP[3]}자녀의 별은 ${s.gender==='M'?'남성에게 관성':'여성에게 식상'}으로 봅니다 — 현재 ${g[childStar]}개. ${g[childStar]>=1?'자녀와의 인연이 원국에 있으며, 자녀가 생기면 그 별의 국면(책임/표현)이 인생에서 커집니다.':'자녀성이 원국에 뚜렷하지 않으나, 이는 인연의 유무가 아니라 자녀 문제가 운에서 들어올 때 움직인다는 뜻입니다.'} ${s.hasTime?`자녀궁인 시주(${CGH[s.hour.cg]}${JJH[s.hour.jj]})에는 ${stemSipsin(s.day.cg,s.hour.cg)}·${branchSipsin(s.day.cg,s.hour.jj)}이 앉아, 말년과 자녀에게서 그 기운을 받습니다.`:'출생시각이 없어 자녀궁(시주) 판독은 제외합니다.'}`;
-  return {title:'결혼',tag:'STEP 7 · 배우자궁 · 12운성 · 충 · 시기',text:t};
+  t+=`<h3>성사되기 쉬운 시기</h3>${CHIP[2]}${mYears.length?mYears.slice(0,4).map(y=>`<b>${y.Y}년(${CG[y.gz.cg]}${JJ[y.gz.jj]})</b>`).join(', ')+' — 배우자성이 들어오거나 배우자궁에 합이 걸리는 해로, 만남이 결실로 이어지기 좋은 해입니다':'향후 12년의 세운에서는 뚜렷한 해가 드물어, 대운에서 배우자성이 들어오는 구간이 더 큰 창입니다'}.`;
+  t+=`<h3>자녀운</h3>${CHIP[3]}자녀의 별은 ${s.gender==='M'?'남성에게 관성':'여성에게 식상'}으로 봅니다 — 현재 ${g[childStar]}개. ${g[childStar]>=1?'자녀와의 인연이 원국에 있으며, 자녀가 생기면 그 별의 국면(책임/표현)이 인생에서 커집니다.':'자녀성이 원국에 뚜렷하지 않으나, 이는 인연의 유무가 아니라 자녀 문제가 운에서 들어올 때 움직인다는 뜻입니다.'} ${s.hasTime?`자녀궁인 시주(${CGH[s.hour.cg]}${JJH[s.hour.jj]})에는 ${stemSipsin(s.day.cg,s.hour.cg)}·${branchSipsin(s.day.cg,s.hour.jj)}${josa(branchSipsin(s.day.cg,s.hour.jj),'이','가')} 앉아, 말년과 자녀에게서 그 기운을 받습니다.`:'출생시각이 없어 자녀궁(시주) 판독은 제외합니다.'}`;
+  return {title:'결혼',tag:'배우자궁 · 12운성 · 충 · 시기',text:t};
 }
 
 function stepBody(ctx){
@@ -1111,20 +1213,20 @@ function stepBody(ctx){
   t+=`<h3>스트레스가 몸으로 오는 방식</h3>${CHIP[2]}${weak.map(k=>STRESS_OF[k]).join('. 또한 ')}. ${ctx.g['식상']===0?'특히 식상(표현의 별)이 없어 삭이는 체질이라, 마음의 문제가 몸의 증상으로 번역되어 나타나는 편입니다.':''}`;
   const giDu=s.daeun.filter(d=>STEM_ELEM[d.cg]===ys.gi);
   const giYears=seun.filter(y=>y.flags.some(f=>f.includes('기신운')));
-  t+=`<h3>건강이 꺾이기 쉬운 시기</h3>${CHIP[2]}기신(${ELEM_KOR[ys.gi]}) 기운이 강해지는 때가 고비입니다 — 대운: ${giDu.length?giDu.map(d=>`${d.age}세~ ${CG[d.cg]}${JJ[d.jj]}`).join(', '):'해당 대운 없음'}${giYears.length?' / 세운: '+giYears.map(y=>y.Y+'년').join(', '):''}. 이 시기에는 새 판을 벌이기보다 몸의 정비가 우선입니다. ${hc.jiChung.some(h=>[2,8,5,11].includes(h.a.idx)&&[2,8,5,11].includes(h.b.idx))?`${CHIP[3]}또한 원국에 인신·사해 계열의 충(역마의 충)이 있어, 이동 중의 사고·부상은 평생 한 번 더 조심하십시오.`:''}`;
-  t+=`<h3>무너지기 전의 신호와 지켜야 할 습관</h3>${CHIP[2]}이 사주의 경고등은 <b>${weak.map(k=>STRESS_OF[k].split(' — ')[1]).join(' / ')}</b>입니다. 이 신호가 2주 이상 가면 이미 과부하입니다. 평생 습관 처방: ① ${ELEM_REMEDY[weak[0]]} ② 절기(계절이 바뀌는 마디)마다 컨디션 점검 ③ ${ctx.str.strong?'과로의 관성 끊기 — 이 사주는 아픈 줄 모르고 달리는 체질입니다':'에너지 총량 관리 — 이 사주는 무리가 바로 몸으로 청구되는 체질입니다'}. 이상은 전통 이론의 참고 사항이며 의학적 진단·조언이 아닙니다. 증상이 있다면 반드시 병원이 먼저입니다.`;
-  return {title:'몸',tag:'STEP 8 · 오행-장부 · 기신 시기',text:t};
+  t+=`<h3>건강이 꺾이기 쉬운 시기</h3>${CHIP[2]}기신(${ELEM_KOR[ys.gi]}) 기운이 강해지는 때가 고비입니다 — 대운: ${giDu.length?giDu.map(d=>`${d.age}세~ ${CG[d.cg]}${JJ[d.jj]}`).join(', '):'해당 대운 없음'}${giYears.length?' / 세운: '+giYears.map(y=>y.Y+'년').join(', '):''}. 이 시기에는 새 판을 벌이기보다 몸의 정비가 우선입니다. ${hc.jiChung.some(h=>[2,8,5,11].includes(h.a.idx)&&[2,8,5,11].includes(h.b.idx))?`${CHIP[3]}또한 원국에 인신·사해 계열의 충(역마의 충)이 있어, 이동 중의 사고·부상은 평생 한 번 더 조심하십시오.`:''}`;
+  t+=`<h3>무너지기 전의 신호와 지켜야 할 습관</h3>${CHIP[2]}이 사주의 경고등은 이렇습니다 — <b>${weak.map(k=>STRESS_OF[k].split(' — ')[1]).join(' / ')}</b>. 이 신호가 2주 이상 가면 이미 과부하입니다. 평생 습관 처방: ① ${ELEM_REMEDY[weak[0]]} ② 절기(계절이 바뀌는 마디)마다 컨디션 점검 ③ ${ctx.str.strong?'과로의 관성 끊기 — 이 사주는 아픈 줄 모르고 달리는 체질입니다':'에너지 총량 관리 — 이 사주는 무리가 바로 몸으로 청구되는 체질입니다'}. 이상은 전통 이론의 참고 사항이며 의학적 진단·조언이 아닙니다. 증상이 있다면 반드시 병원이 먼저입니다.`;
+  return {title:'몸',tag:'오행-장부 · 기신 시기',text:t};
 }
 
 function stepPeople(ctx){
   const {s,g,ce,sinsal,hc}=ctx;
   const yearSS=stemSipsin(s.day.cg,s.year.cg), monthSS=stemSipsin(s.day.cg,s.month.cg);
   let t='';
-  t+=`<h3>부모·가족과의 인연</h3>${CHIP[3]}전통 명리에서 인성(印星)은 어머니의 별, 재성(財星)은 아버지의 별입니다 — 인성 ${g['인성']}개, 재성 ${g['재성']}개. ${g['인성']>=2?'어머니 쪽의 정서적 영향과 보살핌이 인생에 깊게 깔려 있는 구조입니다.':g['인성']===0?'인성이 비어 있어 부모의 그늘보다 스스로 큰 자수성가의 구조 — 정서적 독립이 이릅니다.':'부모의 영향이 과하지도 모자라지도 않은 균형입니다.'} 부모궁인 월주에는 ${monthSS}이 앉아, 집안·성장 환경에서 「${SIPSIN_DESC[monthSS].split('—')[1].trim()}」의 기운을 받고 자랐습니다. ${g['비겁']>=2?'비겁이 강해 형제·또래와 나누고 경쟁하며 큰 사주 — 가족 안에서 내 몫을 챙기는 일이 은근한 짐이 됩니다.':''}`;
-  t+=`<h3>관계에서 반복되는 갈등의 구조</h3>${CHIP[2]}${g['비겁']>=2?'대등한 관계에서의 경쟁과 비교':g['관성']>=3?'위에서 누르는 권위와의 마찰':g['식상']>=2?'할 말을 참지 못해 생기는 설화(말로 인한 탈)':'맞춰주다 쌓인 서운함의 폭발'} — 이것이 이 사주의 단골 갈등입니다. ${hc.ganChung.length?`천간의 충(${hc.ganChung.map(h=>CG[h.a.idx]+'·'+CG[h.b.idx]).join(', ')})까지 있어, 생각이 다른 사람과 정면으로 부딪히는 일이 잦은 편입니다.`:''}`;
-  t+=`<h3>귀인이 드는가, 사람에게 데이는가</h3>${ce.length?CHIP[3]+`<b>천을귀인</b>(${ce.map(b=>b.pos+' '+JJH[b.idx]).join(', ')})이 있는 사주 — 명리에서 으뜸으로 치는 길신입니다. 벼랑 끝마다 손 내미는 사람이 나타나는 구조이니, 어려울 때 도움을 청하는 것을 부끄러워하지 마십시오. 그것이 이 사주의 복을 쓰는 법입니다.`:CHIP[2]+'천을귀인이 없어 하늘에서 뚝 떨어지는 은인보다, <b>내가 쌓은 신뢰가 곧 귀인</b>이 되는 구조입니다.'} ${g['겁재']>=1&&g['재성']>=1?'다만 겁재가 재성 곁에 있어, 돈이 얽힌 사람에게 데이는 위험은 구조적으로 있습니다 — 가까울수록 계산은 분명히.':''}`;
-  t+=`<h3>끝까지 남는 사람, 그리고 속마음</h3>${CHIP[2]}끝까지 곁에 남는 사람의 결: 용신(${ELEM_KOR[ctx.ys.yong]})의 기질 — ${ELEM_MEANING[ctx.ys.yong]}을 지닌 사람입니다. 함께 있으면 이유 없이 편안한 그 사람이 맞습니다. ${sinsal['화개']?'그리고 화개가 있는 이 사주는 겉으로 무리에 섞여도 <b>속은 혼자인 시간이 필요한 사람</b>입니다. 그 고독은 결핍이 아니라 충전 방식이니, 억지로 넓은 관계를 만들려 애쓰지 마십시오.':g['비겁']===0?'비겁이 없어 겉은 단단해 보여도 「내 편」의 부재를 속으로 느끼는 구조 — 한두 명의 진짜 동료를 의식적으로 만드는 것이 평생의 자산이 됩니다.':'관계의 안팎이 크게 다르지 않은 담백한 구조입니다.'}`;
-  return {title:'사람',tag:'STEP 9 · 부모 · 귀인 · 갈등 구조',text:t};
+  t+=`<h3>부모·가족과의 인연</h3>${CHIP[3]}전통 명리에서 인성(印星)은 어머니의 별, 재성(財星)은 아버지의 별입니다 — 인성 ${g['인성']}개, 재성 ${g['재성']}개. ${g['인성']>=2?'어머니 쪽의 정서적 영향과 보살핌이 인생에 깊게 깔려 있는 구조입니다.':g['인성']===0?'인성이 비어 있어 부모의 그늘보다 스스로 큰 자수성가의 구조 — 정서적 독립이 이릅니다.':'부모의 영향이 과하지도 모자라지도 않은 균형입니다.'} 부모궁인 월주에는 ${monthSS}${josa(monthSS,'이','가')} 앉아, 집안·성장 환경에서 「${SIPSIN_DESC[monthSS].split('—')[1].trim()}」의 기운을 받고 자랐습니다. ${g['비겁']>=2?'비겁이 강해 형제·또래와 나누고 경쟁하며 큰 사주 — 가족 안에서 내 몫을 챙기는 일이 은근한 짐이 됩니다.':''}`;
+  t+=`<h3>관계에서 반복되는 갈등의 구조</h3>${CHIP[2]}${g['비겁']>=2?'대등한 관계에서의 경쟁과 비교':g['관성']>=3?'위에서 누르는 권위와의 마찰':g['식상']>=2?'할 말을 참지 못해 생기는 설화(말로 인한 탈)':'맞춰주다 쌓인 서운함의 폭발'} — 이것이 이 사주의 단골 갈등입니다. ${hc.ganChung.length?`천간의 충(${hc.ganChung.map(h=>CG[h.a.idx]+'·'+CG[h.b.idx]).join(', ')})까지 있어, 생각이 다른 사람과 정면으로 부딪히는 일이 잦은 편입니다.`:''}`;
+  t+=`<h3>귀인이 드는가, 사람에게 데이는가</h3>${ce.length?CHIP[3]+`<b>천을귀인</b>(${ce.map(b=>b.pos+' '+JJH[b.idx]).join(', ')})이 있는 사주 — 명리에서 으뜸으로 치는 길신입니다. 벼랑 끝마다 손 내미는 사람이 나타나는 구조이니, 어려울 때 도움을 청하는 것을 부끄러워하지 마십시오. 그것이 이 사주의 복을 쓰는 법입니다.`:CHIP[2]+'천을귀인이 없어 하늘에서 뚝 떨어지는 은인보다, <b>내가 쌓은 신뢰가 곧 귀인</b>이 되는 구조입니다.'} ${g['겁재']>=1&&g['재성']>=1?'다만 겁재가 재성 곁에 있어, 돈이 얽힌 사람에게 데이는 위험은 구조적으로 있습니다 — 가까울수록 계산은 분명히.':''}`;
+  t+=`<h3>끝까지 남는 사람, 그리고 속마음</h3>${CHIP[2]}끝까지 곁에 남는 사람의 결: 용신(${ELEM_KOR[ctx.ys.yong]})의 기질 — ${ELEM_MEANING[ctx.ys.yong]}${josa(ELEM_MEANING[ctx.ys.yong],'을','를')} 지닌 사람입니다. 함께 있으면 이유 없이 편안한 그 사람이 맞습니다. ${sinsal['화개']?'그리고 화개가 있는 이 사주는 겉으로 무리에 섞여도 <b>속은 혼자인 시간이 필요한 사람</b>입니다. 그 고독은 결핍이 아니라 충전 방식이니, 억지로 넓은 관계를 만들려 애쓰지 마십시오.':g['비겁']===0?'비겁이 없어 겉은 단단해 보여도 「내 편」의 부재를 속으로 느끼는 구조 — 한두 명의 진짜 동료를 의식적으로 만드는 것이 평생의 자산이 됩니다.':'관계의 안팎이 크게 다르지 않은 담백한 구조입니다.'}`;
+  return {title:'사람',tag:'부모 · 귀인 · 갈등 구조',text:t};
 }
 
 function stepFinal(ctx){
@@ -1148,7 +1250,7 @@ function stepFinal(ctx){
   t+=`<h3>지금까지의 삶이 이렇게 흘러온 이유</h3>${CHIP[2]}원국에 ${sorted[0][0]}이 강하고 ${zeroG.length?zeroG[0]+'이 비어':'균형이 '+sorted[0][0]+' 쪽으로 쏠려'} 있어, ${GRP_LIFE_TXT(sorted[0][0])}이 반복되어 온 것입니다. 우연이 아니라 구조입니다.`;
   t+=`<h3>앞으로 인생이 갈리는 변곡점</h3>${CHIP[2]}${turns.map((d,i)=>`${i+1}. <b>${s.birth.y+d.age-1}년경(${d.age}세)</b> — ${CG[d.cg]}${JJ[d.jj]} 대운 진입, ${grpOfStem(s,d.cg)}의 계절이 시작됩니다`).join('<br>')}${bigYear?`<br>${turns.length+1}. <b>${bigYear.Y}년(${CG[bigYear.gz.cg]}${JJ[bigYear.gz.jj]})</b> — 향후 12년 중 가장 많은 운이 겹치는 해입니다`:''}`;
   t+=`<h3>총평 — 이 사주가 말하는 인생의 본질</h3>${s.name}님의 명식은 <b>${gyeok.name}</b>의 틀 위에서, <b>${CG[s.day.cg]}(${CGH[s.day.cg]})</b>의 기질로, <b>${sorted[0][0]}</b>의 국면을 거듭 살아내는 사주입니다. ${str.strong?'힘은 이미 충분합니다. 문제는 언제나 방향이었습니다.':'힘을 키우는 것이 아니라 힘을 아껴 쓰는 법을 배우는 것이 이 사주의 공부입니다.'} 용신 ${ELEM_KOR[ys.yong]}의 계절이 올 때 주저 없이 나아가고, 기신 ${ELEM_KOR[ys.gi]}의 계절에는 지키십시오. 사주는 정해진 운명이 아니라 <b>기질과 계절의 지도</b>입니다 — 이 지도의 주인은 끝까지 ${s.name}님입니다.`;
-  return {title:'마지막 직언',tag:'STEP 12 · 직언 · 전략 · 변곡점 · 총평',text:t,total:true};
+  return {title:'마지막 직언',tag:'직언 · 전략 · 변곡점 · 총평',text:t,total:true};
 }
 function GRP_LIFE_TXT(grp){
   return {'비겁':'혼자 힘으로 버티고 경쟁하는 국면','식상':'말하고 만들고 표현하는 국면','재성':'벌고 굴리고 성과를 내는 국면','관성':'책임지고 평가받고 자리를 다투는 국면','인성':'배우고 준비하고 도움을 받는 국면'}[grp];
@@ -1157,13 +1259,14 @@ function GRP_LIFE_TXT(grp){
 function renderReport(ctx){
   ctx.seun=buildSeun(ctx.s,ctx.ys);
   const cards=[stepGrit(ctx),stepLifeArc(ctx),stepMoney(ctx),stepWork(ctx),stepLove(ctx),stepMarriage(ctx),stepBody(ctx),stepPeople(ctx),stepFinal(ctx)];
+  const CARD_ICON={'타고난 그릇':'✦','평생 운의 큰 그림':'☾','돈':'◆','일':'▲','연애':'♥\uFE0E','결혼':'❖','몸':'✚\uFE0E','사람':'◎','마지막 직언':'✧'};
   document.getElementById('reportWrap').innerHTML=
-    '<p class="section-label">— &nbsp; 심층 풀이 &nbsp; —</p>'+
+    '<p class="section-label"><span class="cat-num">9</span>심층 풀이</p>'+
     '<p class="sec-desc">아래는 위 판독표의 정보만을 근거로 한 심층 상담 보고서입니다. 판단마다 확신의 강도를 표시했습니다 — <span class="conf c1">거의 확실</span>은 구조가 명확한 것, <span class="conf c2">가능성</span>은 구조상 유력한 것, <span class="conf c3">참고</span>는 유파에 따라 달라질 수 있는 근사 판단입니다.</p>'+
     cards.map((c,i)=>`
     <div class="f-card${c.total?' total':''}" style="animation-delay:${i*.05}s">
-      <div class="f-head"><span class="f-title">${c.title}</span><span class="f-tag">${c.tag}</span></div>
-      <p class="f-text">${c.text}</p>
+      <div class="f-head"><span class="f-icon">${CARD_ICON[c.title]||'✦'}</span><span class="f-title">${c.title}</span><span class="f-tag">${c.tag}</span></div>
+      <div class="f-text">${c.text}</div>
     </div>`).join('');
 }
 
@@ -1192,7 +1295,7 @@ function renderDuDetail(ctx){
     </div>`;
   }).join('');
   document.getElementById('duDetailWrap').innerHTML=
-    '<p class="section-label">— &nbsp; STEP 10 · 대운 상세 &nbsp; —</p>'+
+    '<p class="section-label"><span class="cat-num">10</span>대운 상세 풀이</p>'+
     '<p class="sec-desc">8개의 대운을 하나씩 짚습니다. 키워드는 천간 십성 · 지지 십성 · 일지와의 관계(합/충/용신/기신)에서 뽑았습니다.</p>'+html;
 }
 
@@ -1204,7 +1307,7 @@ function renderSeun(ctx){
     return `<div class="seun-row${hot?' hot':''}"><span class="seun-y">${y.Y} ${CGH[y.gz.cg]}${JJH[y.gz.jj]}<br><span style="font-size:10px;color:var(--faint)">${CG[y.gz.cg]}${JJ[y.gz.jj]}년</span></span><span class="seun-t">${line}.</span></div>`;
   }).join('');
   document.getElementById('seunWrap').innerHTML=
-    '<p class="section-label">— &nbsp; STEP 11 · 중요한 해 (세운) &nbsp; —</p>'+
+    '<p class="section-label"><span class="cat-num">11</span>중요한 해 — 앞으로 12년</p>'+
     '<p class="sec-desc">올해부터 12년의 세운(歲運, 해마다 들어오는 운)입니다. 강조된 해는 여러 운이 겹치는, 인생에서 특히 중요한 해입니다. 판정 근거(십성·합충·용신)를 각 해에 그대로 적었습니다.</p>'+
     `<div class="f-card">${html}</div>`;
 }
@@ -1224,7 +1327,7 @@ function validate(){
   const hh=document.getElementById('hourIn').value.trim();
   const mm=document.getElementById('minIn').value.trim();
   if(!name)return{err:'이름을 입력해 주세요.'};
-  if(!gender)return{err:'성별을 선택해 주세요. (대운·연애운 계산에 필요합니다)'};
+  if(!gender)return{err:'성별을 선택해 주세요.'};
   if(!dob||dob.length!==8||isNaN(Number(dob)))return{err:'생년월일을 8자리 숫자로 입력하세요. (예: 19900101)'};
   const y=+dob.slice(0,4),mo=+dob.slice(4,6),d=+dob.slice(6,8);
   const dim=new Date(y,mo,0).getDate();
